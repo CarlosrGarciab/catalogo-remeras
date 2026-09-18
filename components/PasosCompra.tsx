@@ -17,7 +17,7 @@ export function PasosCompra() {
   return (
     <section
       aria-label="Cómo comprar"
-      className="mb-8 rounded-2xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900 sm:p-5"
+      className="mb-8 mt-12 rounded-2xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900 sm:p-5"
     >
       <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-neutral-400 dark:text-neutral-500">
         Cómo comprar
