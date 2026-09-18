@@ -33,6 +33,8 @@ export default async function HomePage({
       <div className="mx-auto max-w-6xl">
         <Header />
 
+        <PasosCompra />
+
         <nav className="mb-8 flex flex-wrap gap-2">
           {categorias.map((cat) => (
             <Link
@@ -49,8 +51,6 @@ export default async function HomePage({
             </Link>
           ))}
         </nav>
-
-        <PasosCompra />
 
         <CatalogoClient remeras={remeras} terminoInicial={termino} />
       </div>
