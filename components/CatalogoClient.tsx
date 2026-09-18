@@ -10,9 +10,13 @@ const inputClass =
 export default function CatalogoClient({
   remeras,
   terminoInicial = '',
+  etiquetasPorSlug,
+  mostrarCategoria = false,
 }: {
   remeras: Remera[]
   terminoInicial?: string
+  etiquetasPorSlug?: Record<string, string>
+  mostrarCategoria?: boolean
 }) {
   const [termino, setTermino] = useState(terminoInicial)
 
@@ -63,7 +67,13 @@ export default function CatalogoClient({
           </p>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filtradas.map((remera) => (
-              <RemeraCard key={remera.id} remera={remera} />
+              <RemeraCard
+                key={remera.id}
+                remera={remera}
+                categoriaEtiqueta={
+                  mostrarCategoria ? etiquetasPorSlug?.[remera.categoria] : undefined
+                }
+              />
             ))}
           </div>
         </>

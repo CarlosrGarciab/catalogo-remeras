@@ -8,7 +8,13 @@ import type { Remera, Tallas } from '@/types/remera'
 const TALLAS: Array<keyof Tallas> = ['P', 'M', 'G', 'XL', 'XXL']
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? ''
 
-export default function RemeraCard({ remera }: { remera: Remera }) {
+export default function RemeraCard({
+  remera,
+  categoriaEtiqueta,
+}: {
+  remera: Remera
+  categoriaEtiqueta?: string
+}) {
   const [indice, setIndice] = useState(0)
   const [tallaSeleccionada, setTallaSeleccionada] = useState<keyof Tallas | null>(null)
   const [fotoAmpliada, setFotoAmpliada] = useState(false)
@@ -87,6 +93,11 @@ export default function RemeraCard({ remera }: { remera: Remera }) {
 
       <div className="flex flex-1 flex-col gap-3 p-4">
         <div>
+          {categoriaEtiqueta && (
+            <span className="mb-1.5 inline-block rounded-full border border-neutral-200 bg-neutral-50 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-neutral-500 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+              {categoriaEtiqueta}
+            </span>
+          )}
           <h2 className="font-medium text-neutral-900 dark:text-white">{remera.nombre}</h2>
           {remera.descripcion && (
             <p className="mt-1 line-clamp-2 text-sm text-neutral-500 dark:text-neutral-400">

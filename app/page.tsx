@@ -16,8 +16,10 @@ export default async function HomePage({
   const categorias = await obtenerCategorias()
   const categoriaActiva = categorias.some((c) => c.slug === categoria)
     ? (categoria as string)
-    : categorias[0]?.slug
+    : null
+  const etiquetasPorSlug = Object.fromEntries(categorias.map((c) => [c.slug, c.etiqueta]))
   const termino = (q ?? '').trim()
+  const mostrarCategoria = !categoriaActiva
 
   const supabase = await createClient()
   let query = supabase.from('remeras').select('*')
@@ -34,6 +36,17 @@ export default async function HomePage({
         <Header />
 
         <nav className="mb-8 flex flex-wrap gap-2">
+          <Link
+            href="/"
+            className={[
+              'rounded-full border px-4 py-1.5 text-sm transition',
+              !categoriaActiva
+                ? 'border-neutral-900 bg-neutral-900 text-white dark:border-white dark:bg-white dark:text-neutral-900'
+                : 'border-neutral-300 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white dark:hover:text-white',
+            ].join(' ')}
+          >
+            Todos
+          </Link>
           {categorias.map((cat) => (
             <Link
               key={cat.slug}
@@ -50,7 +63,12 @@ export default async function HomePage({
           ))}
         </nav>
 
-        <CatalogoClient remeras={remeras} terminoInicial={termino} />
+        <CatalogoClient
+          remeras={remeras}
+          terminoInicial={termino}
+          etiquetasPorSlug={etiquetasPorSlug}
+          mostrarCategoria={mostrarCategoria}
+        />
 
         <PasosCompra />
       </div>
