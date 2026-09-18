@@ -64,6 +64,10 @@ alter table public.remeras add column if not exists descripcion text;
 alter table public.remeras add column if not exists categoria text;
 alter table public.remeras add column if not exists imagenes text[] not null default '{}';
 alter table public.remeras add column if not exists tallas jsonb not null default '{"P": true, "M": true, "G": true, "XL": true, "XXL": true}';
+alter table public.remeras add column if not exists activa boolean not null default true;
+alter table public.categorias add column if not exists activa boolean not null default true;
+
+notify pgrst, 'reload schema';
 
 -- La versión anterior tenía un check fijo de categorías; lo sacamos porque
 -- ahora las categorías son dinámicas (tabla categorias) y la relación se

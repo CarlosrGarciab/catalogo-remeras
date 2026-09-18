@@ -112,3 +112,11 @@ export async function moverCategoria(id: string, direccion: -1 | 1) {
   revalidatePath('/admin')
   revalidatePath('/')
 }
+
+export async function toggleCategoriaActiva(id: string, activaActual: boolean) {
+  const supabase = await createClient()
+  await supabase.from('categorias').update({ activa: !activaActual }).eq('id', id)
+  revalidatePath('/admin/categorias')
+  revalidatePath('/admin')
+  revalidatePath('/')
+}

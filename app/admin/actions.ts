@@ -188,3 +188,10 @@ export async function toggleTalla(remeraId: string, talla: keyof Tallas, disponi
   revalidatePath('/admin')
   revalidatePath('/')
 }
+
+export async function toggleRemeraActiva(remeraId: string, activaActual: boolean) {
+  const supabase = await createClient()
+  await supabase.from('remeras').update({ activa: !activaActual }).eq('id', remeraId)
+  revalidatePath('/admin')
+  revalidatePath('/')
+}

@@ -14,5 +14,6 @@ export type Remera = {
   categoria: string
   imagenes: string[] | null
   tallas: Tallas
+  activa: boolean
   created_at: string
 }

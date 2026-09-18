@@ -5,11 +5,14 @@ export type Categoria = {
   slug: string
   etiqueta: string
   orden: number
+  activa: boolean
 }
 
-export async function obtenerCategorias(): Promise<Categoria[]> {
+export async function obtenerCategorias(opts: { soloActivas?: boolean } = {}): Promise<Categoria[]> {
   const supabase = await createClient()
-  const { data } = await supabase.from('categorias').select('*').order('orden', { ascending: true })
+  let query = supabase.from('categorias').select('*').order('orden', { ascending: true })
+  if (opts.soloActivas) query = query.eq('activa', true)
+  const { data } = await query
   return data ?? []
 }
 

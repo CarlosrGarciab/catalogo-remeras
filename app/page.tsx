@@ -13,16 +13,18 @@ export default async function HomePage({
   searchParams: Promise<{ categoria?: string; q?: string }>
 }) {
   const { categoria, q } = await searchParams
-  const categorias = await obtenerCategorias()
+  const categorias = await obtenerCategorias({ soloActivas: true })
   const categoriaActiva = categorias.some((c) => c.slug === categoria)
     ? (categoria as string)
     : null
   const etiquetasPorSlug = Object.fromEntries(categorias.map((c) => [c.slug, c.etiqueta]))
+  const slugsActivos = categorias.map((c) => c.slug)
   const termino = (q ?? '').trim()
   const mostrarCategoria = !categoriaActiva
 
   const supabase = await createClient()
-  let query = supabase.from('remeras').select('*')
+  let query = supabase.from('remeras').select('*').eq('activa', true)
+  if (slugsActivos.length > 0) query = query.in('categoria', slugsActivos)
   if (categoriaActiva) query = query.eq('categoria', categoriaActiva)
   const { data } = await query
 
