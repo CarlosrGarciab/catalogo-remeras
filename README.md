@@ -90,7 +90,7 @@ npm run dev
   al bucket `remeras-fotos` (carpeta `<id-de-la-remera>/...`) con el cliente
   de Supabase del servidor, y guarda las URLs públicas en la columna
   `imagenes`.
-- **Talles**: se guardan como `jsonb` (`{"S": true, "M": false, ...}`) en
+- **Talles**: se guardan como `jsonb` (`{"P": true, "M": false, ...}`) en
   vez de eliminar el talle, así se puede reactivar con un clic cuando vuelva
   el stock.
 - **WhatsApp**: el botón arma un link `https://wa.me/<numero>?text=<mensaje

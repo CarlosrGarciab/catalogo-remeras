@@ -141,7 +141,7 @@ export default function FormPedido({
                     className={inputClass}
                   >
                     <option value="">Talle</option>
-                    {['S', 'M', 'L', 'XL'].map((t) => (
+                    {['P', 'M', 'G', 'XL', 'XXL'].map((t) => (
                       <option key={t} value={t}>
                         {t}
                       </option>

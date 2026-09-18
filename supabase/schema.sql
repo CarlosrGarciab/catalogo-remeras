@@ -54,7 +54,7 @@ create table if not exists public.remeras (
   precio numeric not null,
   categoria text not null,
   imagenes text[] not null default '{}',
-  tallas jsonb not null default '{"S": true, "M": true, "L": true, "XL": true}',
+  tallas jsonb not null default '{"P": true, "M": true, "G": true, "XL": true, "XXL": true}',
   created_at timestamptz not null default now()
 );
 
@@ -63,7 +63,7 @@ create table if not exists public.remeras (
 alter table public.remeras add column if not exists descripcion text;
 alter table public.remeras add column if not exists categoria text;
 alter table public.remeras add column if not exists imagenes text[] not null default '{}';
-alter table public.remeras add column if not exists tallas jsonb not null default '{"S": true, "M": true, "L": true, "XL": true}';
+alter table public.remeras add column if not exists tallas jsonb not null default '{"P": true, "M": true, "G": true, "XL": true, "XXL": true}';
 
 -- La versión anterior tenía un check fijo de categorías; lo sacamos porque
 -- ahora las categorías son dinámicas (tabla categorias) y la relación se

@@ -10,10 +10,11 @@ const PESO_MAX_IMAGEN = 15 * 1024 * 1024
 
 function leerTallas(formData: FormData): Tallas {
   return {
-    S: formData.get('talla_s') === 'on',
+    P: formData.get('talla_p') === 'on',
     M: formData.get('talla_m') === 'on',
-    L: formData.get('talla_l') === 'on',
+    G: formData.get('talla_g') === 'on',
     XL: formData.get('talla_xl') === 'on',
+    XXL: formData.get('talla_xxl') === 'on',
   }
 }
 

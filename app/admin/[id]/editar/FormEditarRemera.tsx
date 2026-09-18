@@ -92,7 +92,7 @@ export default function FormEditarRemera({
 
       <Campo label="Talles disponibles">
         <div className="flex gap-4">
-          {(['s', 'm', 'l', 'xl'] as const).map((t) => (
+          {(['p', 'm', 'g', 'xl', 'xxl'] as const).map((t) => (
             <label
               key={t}
               className="flex items-center gap-1.5 text-sm text-neutral-700 dark:text-neutral-300"

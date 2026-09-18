@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Lightbox from './Lightbox'
 import type { Remera, Tallas } from '@/types/remera'
 
-const TALLAS: Array<keyof Tallas> = ['S', 'M', 'L', 'XL']
+const TALLAS: Array<keyof Tallas> = ['P', 'M', 'G', 'XL', 'XXL']
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? ''
 
 export default function RemeraCard({ remera }: { remera: Remera }) {

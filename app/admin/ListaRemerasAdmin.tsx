@@ -8,7 +8,7 @@ import BotonEliminarRemera from '@/components/BotonEliminarRemera'
 import type { Categoria } from '@/lib/categorias'
 import type { Remera, Tallas } from '@/types/remera'
 
-const TALLAS: Array<keyof Tallas> = ['S', 'M', 'L', 'XL']
+const TALLAS: Array<keyof Tallas> = ['P', 'M', 'G', 'XL', 'XXL']
 const inputClass =
   'w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none transition focus:border-neutral-900 dark:border-neutral-700 dark:bg-neutral-950 dark:text-white dark:focus:border-white'
 

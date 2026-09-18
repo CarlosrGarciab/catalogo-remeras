@@ -1,8 +1,9 @@
 export type Tallas = {
-  S: boolean
+  P: boolean
   M: boolean
-  L: boolean
+  G: boolean
   XL: boolean
+  XXL: boolean
 }
 
 export type Remera = {
