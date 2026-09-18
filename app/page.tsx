@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import CatalogoClient from '@/components/CatalogoClient'
+import Header from '@/components/Header'
+import WhatsAppFlotante from '@/components/WhatsAppFlotante'
 import { obtenerCategorias } from '@/lib/categorias'
 import type { Remera } from '@/types/remera'
 
@@ -28,22 +30,7 @@ export default async function HomePage({
   return (
     <main className="min-h-screen bg-neutral-50 px-4 py-10 dark:bg-neutral-950 sm:px-8">
       <div className="mx-auto max-w-6xl">
-        <header className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h1 className="text-2xl font-semibold text-neutral-900 dark:text-white">
-              Catálogo de camisetas
-            </h1>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400">
-              Réplicas de fútbol — clubes y selecciones
-            </p>
-          </div>
-          <Link
-            href="/login"
-            className="text-sm text-neutral-400 underline underline-offset-4 hover:text-neutral-900 dark:hover:text-white"
-          >
-            Panel admin
-          </Link>
-        </header>
+        <Header />
 
         <nav className="mb-8 flex flex-wrap gap-2">
           {categorias.map((cat) => (
@@ -64,6 +51,8 @@ export default async function HomePage({
 
         <CatalogoClient remeras={remeras} terminoInicial={termino} />
       </div>
+
+      <WhatsAppFlotante />
     </main>
   )
 }
