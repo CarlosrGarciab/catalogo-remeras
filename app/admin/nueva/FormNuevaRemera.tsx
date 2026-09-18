@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import Link from 'next/link'
 import { addRemera } from '../actions'
 import { Campo, inputClass } from '../campos'
 import SelectorFotos from '@/components/SelectorFotos'
@@ -81,6 +82,13 @@ export default function FormNuevaRemera({ categorias }: { categorias: Categoria[
       >
         {isPending ? 'Guardando...' : 'Guardar'}
       </button>
+
+      <Link
+        href="/admin"
+        className="w-full rounded-md border border-neutral-300 py-2 text-center text-sm font-medium text-neutral-700 transition hover:border-neutral-900 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white dark:hover:text-white"
+      >
+        Cancelar
+      </Link>
     </form>
   )
 }
