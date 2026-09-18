@@ -131,14 +131,17 @@ create policy "Eliminar fotos remeras solo autenticado"
 -- Tabla de pedidos (manejados por el admin)
 -- =========================================
 -- Datos personales de clientes: solo lectura/escritura con sesión iniciada.
-create table if not exists public.pedidos (
+-- Un pedido puede tener una o más remeras (arreglo "items").
+-- El apartado es nuevo; si ya existía una versión anterior de la tabla,
+-- se elimina y se recrea (no hay datos que perder).
+drop table if exists public.pedidos;
+
+create table public.pedidos (
   id uuid primary key default gen_random_uuid(),
   cliente text not null,
   telefono text not null default '',
   info_extra text not null default '',
-  remera_id uuid references public.remeras (id) on delete set null,
-  remera_nombre text not null default '',
-  talla text not null default '',
+  items jsonb not null default '[]',
   pago text not null default 'pendiente'
     check (pago in ('pendiente', 'senia', 'pagado')),
   monto_pagado numeric not null default 0,
@@ -174,3 +177,6 @@ create policy "Eliminar pedidos solo autenticado"
   on public.pedidos for delete
   to authenticated
   using (true);
+
+-- Refrescar el caché de PostgREST para que vea la tabla nueva al instante:
+notify pgrst, 'reload schema';

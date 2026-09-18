@@ -1,13 +1,17 @@
 export type PagoPedido = 'pendiente' | 'senia' | 'pagado'
 
+export type ItemPedido = {
+  remera_id: string | null
+  nombre: string
+  talla: string
+}
+
 export type Pedido = {
   id: string
   cliente: string
   telefono: string
   info_extra: string
-  remera_id: string | null
-  remera_nombre: string
-  talla: string
+  items: ItemPedido[]
   pago: PagoPedido
   monto_pagado: number
   entregado: boolean

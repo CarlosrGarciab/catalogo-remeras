@@ -20,6 +20,12 @@ function formatearFecha(iso: string) {
   })
 }
 
+function resumenItems(pedido: Pedido) {
+  return pedido.items
+    .map((item) => (item.talla ? `${item.nombre} (${item.talla})` : item.nombre))
+    .join(', ')
+}
+
 function clasesPago(pago: Pedido['pago']) {
   if (pago === 'pagado') {
     return 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400'
@@ -82,7 +88,7 @@ export default function ListaPedidosAdmin({ pedidos }: { pedidos: Pedido[] }) {
       return (
         p.cliente.toLowerCase().includes(t) ||
         p.telefono.toLowerCase().includes(t) ||
-        p.remera_nombre.toLowerCase().includes(t)
+        p.items.some((item) => item.nombre.toLowerCase().includes(t))
       )
     })
   }, [pedidos, filtro, termino])
@@ -173,8 +179,7 @@ export default function ListaPedidosAdmin({ pedidos }: { pedidos: Pedido[] }) {
               </div>
 
               <p className="text-sm text-neutral-700 dark:text-neutral-300">
-                {pedido.remera_nombre || 'Sin remera especificada'}
-                {pedido.talla && <span className="text-neutral-400"> · Talle {pedido.talla}</span>}
+                {resumenItems(pedido) || 'Sin remeras especificadas'}
               </p>
 
               {(pedido.telefono || pedido.info_extra) && (
