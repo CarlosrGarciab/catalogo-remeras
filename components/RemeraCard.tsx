@@ -60,7 +60,7 @@ export default function RemeraCard({ remera }: { remera: Remera }) {
               type="button"
               onClick={() => setIndice((i) => (i - 1 + imagenes.length) % imagenes.length)}
               aria-label="Foto anterior"
-              className="absolute left-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition group-hover:opacity-100"
+              className="absolute left-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white transition hover:bg-black/80"
             >
               ‹
             </button>
@@ -68,7 +68,7 @@ export default function RemeraCard({ remera }: { remera: Remera }) {
               type="button"
               onClick={() => setIndice((i) => (i + 1) % imagenes.length)}
               aria-label="Foto siguiente"
-              className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition group-hover:opacity-100"
+              className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white transition hover:bg-black/80"
             >
               ›
             </button>
