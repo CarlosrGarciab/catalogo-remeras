@@ -16,6 +16,7 @@ export default function RemeraCard({ remera }: { remera: Remera }) {
 
   const imagenes = remera.imagenes ?? []
   const tallas = remera.tallas ?? ({} as Tallas)
+  const sinStock = !TALLAS.some((talla) => Boolean(tallas[talla]))
 
   const mensaje = tallaSeleccionada
     ? `Hola! Me interesa la remera "${remera.nombre}" en talle ${tallaSeleccionada}. ¿Está disponible?`
@@ -43,6 +44,12 @@ export default function RemeraCard({ remera }: { remera: Remera }) {
           <div className="flex h-full items-center justify-center text-sm text-neutral-400">
             Sin foto
           </div>
+        )}
+
+        {sinStock && (
+          <span className="absolute left-2 top-2 rounded-full bg-red-600 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+            Sin stock
+          </span>
         )}
 
         {imagenes.length > 1 && (
@@ -120,6 +127,11 @@ export default function RemeraCard({ remera }: { remera: Remera }) {
                 )
               })}
             </div>
+            {sinStock && (
+              <p className="mt-1.5 text-xs text-red-600 dark:text-red-400">
+                Sin stock por el momento.
+              </p>
+            )}
           </div>
 
           <a
@@ -137,7 +149,7 @@ export default function RemeraCard({ remera }: { remera: Remera }) {
                 : 'cursor-not-allowed bg-neutral-100 text-neutral-400 dark:bg-neutral-800 dark:text-neutral-600',
             ].join(' ')}
           >
-            Pedir por WhatsApp
+            {sinStock ? 'Sin stock' : 'Pedir por WhatsApp'}
           </a>
         </div>
       </div>
