@@ -32,25 +32,24 @@ export default function RemeraCard({
 
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white transition hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-900">
-      <div className="relative bg-neutral-100 dark:bg-neutral-800">
+      <div className="relative aspect-[3/4] bg-neutral-100 dark:bg-neutral-800">
         {imagenes.length > 0 ? (
           <button
             type="button"
             onClick={() => setFotoAmpliada(true)}
             aria-label="Ver foto más grande"
-            className="relative block w-full cursor-zoom-in bg-transparent p-0"
+            className="relative block h-full w-full cursor-zoom-in bg-transparent p-0"
           >
             <Image
               src={imagenes[indice]}
               alt={remera.nombre}
-              width={422}
-              height={562}
+              fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-              className="h-auto w-full"
+              className="object-cover"
             />
           </button>
         ) : (
-          <div className="flex aspect-[3/4] items-center justify-center text-sm text-neutral-400">
+          <div className="flex h-full items-center justify-center text-sm text-neutral-400">
             Sin foto
           </div>
         )}
