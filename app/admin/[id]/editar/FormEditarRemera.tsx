@@ -17,13 +17,32 @@ export default function FormEditarRemera({
 }) {
   const [isPending, startTransition] = useTransition()
   const [archivos, setArchivos] = useState<File[]>([])
+  const [orden, setOrden] = useState<string[]>(remera.imagenes ?? [])
+  const [eliminar, setEliminar] = useState<string[]>([])
   const tallas = remera.tallas as Tallas
+
+  function mover(i: number, dir: -1 | 1) {
+    setOrden((prev) => {
+      const j = i + dir
+      if (j < 0 || j >= prev.length) return prev
+      const next = [...prev]
+      ;[next[i], next[j]] = [next[j], next[i]]
+      return next
+    })
+  }
+
+  function toggoleValidar(url: string) {
+    setEliminar((prev) => (prev.includes(url) ? prev.filter((u) => u !== url) : [...prev, url]))
+  }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     formData.delete('imagenes_nuevas')
     archivos.forEach((archivo) => formData.append('imagenes_nuevas', archivo, archivo.name))
+    formData.delete('imagenes_orden')
+    const ordenFinal = orden.filter((url) => !eliminar.includes(url))
+    formData.set('imagenes_orden', JSON.stringify(ordenFinal))
     startTransition(() => updateRemera(formData))
   }
 
@@ -89,26 +108,56 @@ export default function FormEditarRemera({
         </div>
       </Campo>
 
-      {remera.imagenes && remera.imagenes.length > 0 && (
-        <Campo label="Fotos actuales (marcá la que quieras eliminar)">
+      {orden.length > 0 && (
+        <Campo label="Fotos actuales (la primera es la principal; usá las flechas para ordenar)">
           <div className="grid grid-cols-3 gap-3">
-            {remera.imagenes.map((url: string) => (
-              <label
+            {orden.map((url: string, i: number) => (
+              <div
                 key={url}
-                className="group relative block cursor-pointer overflow-hidden rounded-md border border-neutral-200 dark:border-neutral-700"
+                className="group relative overflow-hidden rounded-md border border-neutral-200 dark:border-neutral-700"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={url} alt="" className="aspect-square w-full object-cover" />
-                <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-red-600/0 text-xs font-medium text-white opacity-0 transition group-has-[:checked]:bg-red-600/70 group-has-[:checked]:opacity-100">
-                  Se eliminará
-                </span>
+
+                {i === 0 && (
+                  <span className="absolute left-1.5 top-1.5 rounded bg-black/60 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                    Principal
+                  </span>
+                )}
+
                 <input
                   type="checkbox"
                   name="eliminar_imagen"
                   value={url}
-                  className="absolute right-1.5 top-1.5 h-4 w-4"
+                  checked={eliminar.includes(url)}
+                  onChange={() => toggoleValidar(url)}
+                  className="peer absolute right-1.5 top-1.5 h-4 w-4"
                 />
-              </label>
+                <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-red-600/0 text-xs font-medium text-white opacity-0 transition peer-checked:bg-red-600/70 peer-checked:opacity-100">
+                  Se eliminará
+                </span>
+
+                <div className="absolute bottom-1.5 left-1/2 flex -translate-x-1/2 gap-1">
+                  <button
+                    type="button"
+                    disabled={i === 0}
+                    onClick={() => mover(i, -1)}
+                    aria-label="Mover foto una posición a la izquierda"
+                    className="flex h-6 w-6 items-center justify-center rounded-full bg-black/50 text-sm text-white transition hover:bg-black/80 disabled:opacity-30"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    type="button"
+                    disabled={i === orden.length - 1}
+                    onClick={() => mover(i, 1)}
+                    aria-label="Mover foto una posición a la derecha"
+                    className="flex h-6 w-6 items-center justify-center rounded-full bg-black/50 text-sm text-white transition hover:bg-black/80 disabled:opacity-30"
+                  >
+                    ›
+                  </button>
+                </div>
+              </div>
             ))}
           </div>
         </Campo>

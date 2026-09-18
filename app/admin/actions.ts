@@ -114,6 +114,18 @@ export async function updateRemera(formData: FormData) {
   const { data: actual } = await supabase.from('remeras').select('imagenes').eq('id', id).single()
   let imagenes: string[] = actual?.imagenes ?? []
 
+  const ordenRaw = formData.get('imagenes_orden')
+  if (typeof ordenRaw === 'string' && ordenRaw.trim() !== '') {
+    try {
+      const ordenado = JSON.parse(ordenRaw)
+      if (Array.isArray(ordenado)) {
+        imagenes = ordenado.filter((url): url is string => typeof url === 'string')
+      }
+    } catch {
+      // Si el orden viene malformado, se ignora y se conserva el actual.
+    }
+  }
+
   const aEliminar = formData.getAll('eliminar_imagen') as string[]
   if (aEliminar.length > 0) {
     imagenes = imagenes.filter((url) => !aEliminar.includes(url))
