@@ -11,7 +11,7 @@ export default async function NuevoPedidoPage({
   const supabase = await createClient()
   const { data } = await supabase
     .from('remeras')
-    .select('id, nombre')
+    .select('id, nombre, precio')
     .order('nombre', { ascending: true })
   const remeras = data ?? []
 

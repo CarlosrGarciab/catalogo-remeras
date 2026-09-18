@@ -6,12 +6,12 @@ import { crearPedido, actualizarPedido } from './actions'
 import { Campo, inputClass } from '../campos'
 import type { Pedido } from '@/types/pedido'
 
-type OptRemera = { id: string; nombre: string }
+type OptRemera = { id: string; nombre: string; precio: number }
 
-type ItemForm = { remera_id: string; nombre: string; talla: string }
+type ItemForm = { remera_id: string; nombre: string; talla: string; precio: number }
 
 function itemVacio(): ItemForm {
-  return { remera_id: '', nombre: '', talla: '' }
+  return { remera_id: '', nombre: '', talla: '', precio: 0 }
 }
 
 export default function FormPedido({
@@ -30,15 +30,25 @@ export default function FormPedido({
           remera_id: item.remera_id ?? '',
           nombre: item.nombre ?? '',
           talla: item.talla ?? '',
+          precio: remeras.find((r) => r.id === item.remera_id)?.precio ?? 0,
         }))
       : [itemVacio()]
   })
+  const [pago, setPago] = useState<string>(pedido?.pago ?? 'pendiente')
+
+  const total = items.reduce((suma, item) => suma + (item.precio || 0), 0)
+  const senia = Math.round(total / 2)
 
   function cambiarRemera(i: number, remeraId: string) {
     setItems((prev) => {
       const next = [...prev]
       const remera = remeras.find((r) => r.id === remeraId)
-      next[i] = { ...next[i], remera_id: remeraId, nombre: remera?.nombre ?? '' }
+      next[i] = {
+        ...next[i],
+        remera_id: remeraId,
+        nombre: remera?.nombre ?? '',
+        precio: remera?.precio ?? 0,
+      }
       return next
     })
   }
@@ -148,6 +158,11 @@ export default function FormPedido({
                     ))}
                   </select>
                 </div>
+                {item.precio > 0 && (
+                  <span className="shrink-0 pb-2 text-sm font-semibold text-neutral-900 dark:text-white">
+                    Gs. {item.precio.toLocaleString('es-PY')}
+                  </span>
+                )}
                 <button
                   type="button"
                   onClick={() => quitarItem(i)}
@@ -189,7 +204,12 @@ export default function FormPedido({
 
       <div className="grid grid-cols-2 gap-4">
         <Campo label="Estado de pago">
-          <select name="pago" defaultValue={pedido?.pago ?? 'pendiente'} className={inputClass}>
+          <select
+            name="pago"
+            value={pago}
+            onChange={(e) => setPago(e.target.value)}
+            className={inputClass}
+          >
             <option value="pendiente">Sin pago</option>
             <option value="senia">Seña</option>
             <option value="pagado">Pagado completo</option>
@@ -206,6 +226,23 @@ export default function FormPedido({
             placeholder="0"
           />
         </Campo>
+      </div>
+
+      <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-3 dark:border-neutral-700 dark:bg-neutral-800/50">
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-neutral-500 dark:text-neutral-400">Total de remeras</span>
+          <span className="font-semibold text-neutral-900 dark:text-white">
+            Gs. {total.toLocaleString('es-PY')}
+          </span>
+        </div>
+        {pago === 'senia' && (
+          <div className="mt-1 flex items-center justify-between text-sm">
+            <span className="text-emerald-600 dark:text-emerald-400">Seña (50%)</span>
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+              Gs. {senia.toLocaleString('es-PY')}
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-3">

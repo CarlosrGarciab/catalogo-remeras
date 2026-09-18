@@ -16,7 +16,7 @@ export default async function EditarPedidoPage({
   const supabase = await createClient()
   const [{ data: pedido }, { data: remeras }] = await Promise.all([
     supabase.from('pedidos').select('*').eq('id', id).single(),
-    supabase.from('remeras').select('id, nombre').order('nombre', { ascending: true }),
+    supabase.from('remeras').select('id, nombre, precio').order('nombre', { ascending: true }),
   ])
 
   if (!pedido) notFound()
