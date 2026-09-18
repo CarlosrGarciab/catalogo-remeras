@@ -73,7 +73,7 @@ function BotonEliminarPedido({ id, cliente }: { id: string; cliente: string }) {
 }
 
 export default function ListaPedidosAdmin({ pedidos }: { pedidos: Pedido[] }) {
-  const [filtro, setFiltro] = useState<Filtro>('todos')
+  const [filtro, setFiltro] = useState<Filtro>('pendientes')
   const [termino, setTermino] = useState('')
 
   const pendientes = pedidos.filter((p) => !p.entregado).length
@@ -94,9 +94,9 @@ export default function ListaPedidosAdmin({ pedidos }: { pedidos: Pedido[] }) {
   }, [pedidos, filtro, termino])
 
   const chips: { valor: Filtro; etiqueta: string; cantidad: number }[] = [
-    { valor: 'todos', etiqueta: 'Todos', cantidad: pedidos.length },
     { valor: 'pendientes', etiqueta: 'Pendientes', cantidad: pendientes },
     { valor: 'entregados', etiqueta: 'Entregados', cantidad: entregados },
+    { valor: 'todos', etiqueta: 'Todos', cantidad: pedidos.length },
   ]
 
   return (
