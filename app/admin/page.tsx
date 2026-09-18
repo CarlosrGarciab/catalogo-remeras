@@ -14,13 +14,15 @@ export default async function AdminPage({
   const termino = (q ?? '').trim()
 
   const supabase = await createClient()
-  const [{ data }, categorias] = await Promise.all([
+  const [{ data }, categorias, pedidosData] = await Promise.all([
     supabase.from('remeras').select('*'),
     obtenerCategorias(),
+    supabase.from('pedidos').select('id, entregado'),
   ])
   const remeras = [...((data as Remera[]) ?? [])].sort((a, b) =>
     a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })
   )
+  const pendientes = (pedidosData?.data?.filter((p: { entregado: boolean }) => !p.entregado) ?? []).length
 
   return (
     <main className="min-h-screen bg-neutral-50 px-4 py-10 dark:bg-neutral-950 sm:px-8">
@@ -62,6 +64,17 @@ export default async function AdminPage({
             className="inline-block rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-700 transition hover:border-neutral-900 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white dark:hover:text-white"
           >
             Gestionar categorías
+          </Link>
+          <Link
+            href="/admin/pedidos"
+            className="inline-flex items-center gap-2 rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-700 transition hover:border-neutral-900 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white dark:hover:text-white"
+          >
+            Pedidos
+            {pendientes > 0 && (
+              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-500 px-1 text-[11px] font-semibold text-white">
+                {pendientes}
+              </span>
+            )}
           </Link>
         </div>
 

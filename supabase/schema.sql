@@ -126,3 +126,51 @@ create policy "Eliminar fotos remeras solo autenticado"
   on storage.objects for delete
   to authenticated
   using (bucket_id = 'remeras-fotos');
+
+-- =========================================
+-- Tabla de pedidos (manejados por el admin)
+-- =========================================
+-- Datos personales de clientes: solo lectura/escritura con sesión iniciada.
+create table if not exists public.pedidos (
+  id uuid primary key default gen_random_uuid(),
+  cliente text not null,
+  telefono text not null default '',
+  info_extra text not null default '',
+  remera_id uuid references public.remeras (id) on delete set null,
+  remera_nombre text not null default '',
+  talla text not null default '',
+  pago text not null default 'pendiente'
+    check (pago in ('pendiente', 'senia', 'pagado')),
+  monto_pagado numeric not null default 0,
+  entregado boolean not null default false,
+  entregado_en timestamptz,
+  created_at timestamptz not null default now()
+);
+
+alter table public.pedidos enable row level security;
+
+drop policy if exists "Leer pedidos solo autenticado" on public.pedidos;
+drop policy if exists "Crear pedidos solo autenticado" on public.pedidos;
+drop policy if exists "Actualizar pedidos solo autenticado" on public.pedidos;
+drop policy if exists "Eliminar pedidos solo autenticado" on public.pedidos;
+
+create policy "Leer pedidos solo autenticado"
+  on public.pedidos for select
+  to authenticated
+  using (true);
+
+create policy "Crear pedidos solo autenticado"
+  on public.pedidos for insert
+  to authenticated
+  with check (true);
+
+create policy "Actualizar pedidos solo autenticado"
+  on public.pedidos for update
+  to authenticated
+  using (true)
+  with check (true);
+
+create policy "Eliminar pedidos solo autenticado"
+  on public.pedidos for delete
+  to authenticated
+  using (true);
