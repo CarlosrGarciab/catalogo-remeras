@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import TallaCheckbox from './TallaCheckbox'
 import BotonEliminarRemera from '@/components/BotonEliminarRemera'
 import type { Categoria } from '@/lib/categorias'
@@ -75,10 +76,11 @@ export default function ListaRemerasAdmin({
             <div className="flex items-center gap-4">
               <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md bg-neutral-100 dark:bg-neutral-800">
                 {remera.imagenes?.[0] ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <Image
                     src={remera.imagenes[0]}
                     alt={remera.nombre}
+                    width={64}
+                    height={64}
                     className="h-full w-full object-cover"
                   />
                 ) : null}

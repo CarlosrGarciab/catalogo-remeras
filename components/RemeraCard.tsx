@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useState } from 'react'
+import Image from 'next/image'
 import Lightbox from './Lightbox'
 import type { Remera, Tallas } from '@/types/remera'
 
@@ -31,13 +32,14 @@ export default function RemeraCard({ remera }: { remera: Remera }) {
             type="button"
             onClick={() => setFotoAmpliada(true)}
             aria-label="Ver foto más grande"
-            className="block h-full w-full cursor-zoom-in bg-transparent p-0"
+            className="relative block h-full w-full cursor-zoom-in bg-transparent p-0"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={imagenes[indice]}
               alt={remera.nombre}
-              className="h-full w-full object-cover"
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+              className="object-cover"
             />
           </button>
         ) : (

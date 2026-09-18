@@ -1,13 +1,15 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Header() {
   return (
     <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
       <div className="flex items-center gap-3">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="/logo.png"
           alt="Logo de la tienda"
+          width={48}
+          height={48}
           className="h-12 w-12 rounded-full object-cover shadow-sm"
         />
         <div>

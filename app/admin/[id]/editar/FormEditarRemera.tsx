@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { updateRemera } from '../../actions'
 import { Campo, inputClass } from '../../campos'
 import SelectorFotos from '@/components/SelectorFotos'
@@ -114,10 +115,15 @@ export default function FormEditarRemera({
             {orden.map((url: string, i: number) => (
               <div
                 key={url}
-                className="group relative overflow-hidden rounded-md border border-neutral-200 dark:border-neutral-700"
+                className="group relative aspect-square overflow-hidden rounded-md border border-neutral-200 dark:border-neutral-700"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={url} alt="" className="aspect-square w-full object-cover" />
+                <Image
+                  src={url}
+                  alt=""
+                  fill
+                  sizes="33vw"
+                  className="object-cover"
+                />
 
                 {i === 0 && (
                   <span className="absolute left-1.5 top-1.5 rounded bg-black/60 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">

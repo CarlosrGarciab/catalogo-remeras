@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 
 export default function Lightbox({
   imagenes,
@@ -72,13 +73,13 @@ export default function Lightbox({
     if (nueva === 1) setPos({ x: 0, y: 0 })
   }
 
-  function onPointerDown(e: React.PointerEvent<HTMLImageElement>) {
+  function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
     if (escala === 1) return
     arrastre.current = { x: pos.x, y: pos.y, px: e.clientX, py: e.clientY }
     ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
   }
 
-  function onPointerMove(e: React.PointerEvent<HTMLImageElement>) {
+  function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
     const d = arrastre.current
     if (!d) return
     setPos({ x: d.x + (e.clientX - d.px), y: d.y + (e.clientY - d.py) })
@@ -129,12 +130,8 @@ export default function Lightbox({
           ›
         </button>
 
-        <div className="flex h-full w-full items-center justify-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={imagenes[indice]}
-            alt="Foto de la remera"
-            draggable={false}
+        <div className="relative flex h-full w-full">
+          <div
             onClick={alternarZoom}
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
@@ -144,12 +141,21 @@ export default function Lightbox({
               transform: `translate(${pos.x}px, ${pos.y}px) scale(${escala})`,
               transition: arrastrando ? 'none' : 'transform 150ms ease',
             }}
-            className={`max-h-full max-w-full object-contain ${
+            className={`relative h-full w-full ${
               escala > 1
                 ? 'cursor-grab active:cursor-grabbing'
                 : 'cursor-zoom-in'
             }`}
-          />
+          >
+            <Image
+              src={imagenes[indice]}
+              alt="Foto de la remera"
+              fill
+              sizes="100vw"
+              draggable={false}
+              className="object-contain"
+            />
+          </div>
         </div>
       </div>
 
