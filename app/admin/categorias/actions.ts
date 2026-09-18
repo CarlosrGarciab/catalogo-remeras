@@ -90,3 +90,25 @@ export async function deleteCategoria(formData: FormData) {
   revalidatePath('/')
   redirect('/admin/categorias')
 }
+
+export async function moverCategoria(id: string, direccion: -1 | 1) {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('categorias')
+    .select('id')
+    .order('orden', { ascending: true })
+  const ids = (data ?? []).map((c) => c.id)
+  const idx = ids.indexOf(id)
+  const j = idx + direccion
+  if (idx === -1 || j < 0 || j >= ids.length) return
+
+  ;[ids[idx], ids[j]] = [ids[j], ids[idx]]
+
+  await Promise.all(
+    ids.map((cid, i) => supabase.from('categorias').update({ orden: i + 1 }).eq('id', cid))
+  )
+
+  revalidatePath('/admin/categorias')
+  revalidatePath('/admin')
+  revalidatePath('/')
+}

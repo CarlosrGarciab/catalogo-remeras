@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { obtenerCategorias } from '@/lib/categorias'
-import { addCategoria, updateCategoria } from './actions'
-import BotonEliminarCategoria from '@/components/BotonEliminarCategoria'
+import { addCategoria } from './actions'
+import ListaCategoriasAdmin from './ListaCategoriasAdmin'
 import { inputClass } from '../campos'
 
 export default async function CategoriasPage({
@@ -49,30 +49,7 @@ export default async function CategoriasPage({
           </button>
         </form>
 
-        <div className="space-y-2">
-          {categorias.length === 0 ? (
-            <p className="text-neutral-400">No hay categorías todavía.</p>
-          ) : (
-            categorias.map((cat) => (
-              <div
-                key={cat.id}
-                className="flex items-center gap-2 rounded-lg border border-neutral-200 bg-white p-3 dark:border-neutral-800 dark:bg-neutral-900"
-              >
-                <form action={updateCategoria} className="flex flex-1 items-center gap-2">
-                  <input type="hidden" name="id" value={cat.id} />
-                  <input name="etiqueta" defaultValue={cat.etiqueta} className={inputClass} />
-                  <button
-                    type="submit"
-                    className="shrink-0 text-sm text-neutral-500 underline underline-offset-4 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
-                  >
-                    Guardar
-                  </button>
-                </form>
-                <BotonEliminarCategoria id={cat.id} slug={cat.slug} etiqueta={cat.etiqueta} />
-              </div>
-            ))
-          )}
-        </div>
+        <ListaCategoriasAdmin categorias={categorias} />
       </div>
     </main>
   )
