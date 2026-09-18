@@ -8,9 +8,9 @@ import type { Remera } from '@/types/remera'
 export default async function AdminPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>
+  searchParams: Promise<{ q?: string; aviso?: string }>
 }) {
-  const { q } = await searchParams
+  const { q, aviso } = await searchParams
   const termino = (q ?? '').trim()
 
   const supabase = await createClient()
@@ -25,6 +25,12 @@ export default async function AdminPage({
   return (
     <main className="min-h-screen bg-neutral-50 px-4 py-10 dark:bg-neutral-950 sm:px-8">
       <div className="mx-auto max-w-5xl space-y-8">
+        {aviso && (
+          <p className="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-700 dark:bg-amber-950 dark:text-amber-400">
+            {aviso}
+          </p>
+        )}
+
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h1 className="text-2xl font-semibold text-neutral-900 dark:text-white">
             Panel de administración
