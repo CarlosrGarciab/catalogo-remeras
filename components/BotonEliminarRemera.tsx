@@ -1,20 +1,23 @@
 'use client'
 
 import { deleteRemera } from '@/app/admin/actions'
+import ConfirmarEliminar from './ConfirmarEliminar'
 
 export default function BotonEliminarRemera({ id, nombre }: { id: string; nombre: string }) {
   return (
-    <form
+    <ConfirmarEliminar
       action={deleteRemera}
-      onSubmit={(e) => {
-        const confirmado = window.confirm(
-          `¿Seguro que querés eliminar la remera "${nombre}"? Este cambio no se puede deshacer.`
-        )
-        if (!confirmado) e.preventDefault()
-      }}
+      id={id}
+      titulo="Eliminar remera"
+      mensaje={
+        <>
+          ¿Seguro que querés eliminar{' '}
+          <span className="font-medium text-neutral-900 dark:text-white">"{nombre}"</span>? Este
+          cambio no se puede deshacer y se borrarán sus fotos.
+        </>
+      }
     >
-      <input type="hidden" name="id" value={id} />
-      <button className="text-sm text-red-500 hover:text-red-400">Eliminar</button>
-    </form>
+      Eliminar
+    </ConfirmarEliminar>
   )
 }

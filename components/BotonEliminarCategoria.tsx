@@ -1,6 +1,7 @@
 'use client'
 
 import { deleteCategoria } from '@/app/admin/categorias/actions'
+import ConfirmarEliminar from './ConfirmarEliminar'
 
 export default function BotonEliminarCategoria({
   id,
@@ -12,18 +13,20 @@ export default function BotonEliminarCategoria({
   etiqueta: string
 }) {
   return (
-    <form
+    <ConfirmarEliminar
       action={deleteCategoria}
-      onSubmit={(e) => {
-        const confirmado = window.confirm(
-          `¿Seguro que querés eliminar la categoría "${etiqueta}"? Este cambio no se puede deshacer.`
-        )
-        if (!confirmado) e.preventDefault()
-      }}
+      id={id}
+      campos={{ slug }}
+      titulo="Eliminar categoría"
+      mensaje={
+        <>
+          ¿Seguro que querés eliminar la categoría{' '}
+          <span className="font-medium text-neutral-900 dark:text-white">"{etiqueta}"</span>? Solo
+          se puede si no tiene remeras asociadas.
+        </>
+      }
     >
-      <input type="hidden" name="id" value={id} />
-      <input type="hidden" name="slug" value={slug} />
-      <button className="text-sm text-red-500 hover:text-red-400">Eliminar</button>
-    </form>
+      Eliminar
+    </ConfirmarEliminar>
   )
 }

@@ -1,8 +1,9 @@
 'use client'
 
 import { useMemo, useState, useTransition } from 'react'
-import Link from 'next/link'
 import { alternarEntregado, eliminarPedido } from './actions'
+import ConfirmarEliminar from '@/components/ConfirmarEliminar'
+import Link from 'next/link'
 import type { Pedido } from '@/types/pedido'
 import { ETIQUETAS_PAGO } from '@/types/pedido'
 
@@ -57,18 +58,20 @@ function BotonEntregado({ id, entregado }: { id: string; entregado: boolean }) {
 
 function BotonEliminarPedido({ id, cliente }: { id: string; cliente: string }) {
   return (
-    <form
+    <ConfirmarEliminar
       action={eliminarPedido}
-      onSubmit={(e) => {
-        const confirmado = window.confirm(
-          `¿Seguro que querés eliminar el pedido de "${cliente}"? Este cambio no se puede deshacer.`
-        )
-        if (!confirmado) e.preventDefault()
-      }}
+      id={id}
+      titulo="Eliminar pedido"
+      mensaje={
+        <>
+          ¿Seguro que querés eliminar el pedido de{' '}
+          <span className="font-medium text-neutral-900 dark:text-white">"{cliente}"</span>? Este
+          cambio no se puede deshacer.
+        </>
+      }
     >
-      <input type="hidden" name="id" value={id} />
-      <button className="text-sm text-red-500 hover:text-red-400">Eliminar</button>
-    </form>
+      Eliminar
+    </ConfirmarEliminar>
   )
 }
 
