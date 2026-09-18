@@ -1,0 +1,150 @@
+'use client'
+
+import { useCallback, useState } from 'react'
+import Lightbox from './Lightbox'
+import type { Remera, Tallas } from '@/types/remera'
+
+const TALLAS: Array<keyof Tallas> = ['S', 'M', 'L', 'XL']
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? ''
+
+export default function RemeraCard({ remera }: { remera: Remera }) {
+  const [indice, setIndice] = useState(0)
+  const [tallaSeleccionada, setTallaSeleccionada] = useState<keyof Tallas | null>(null)
+  const [fotoAmpliada, setFotoAmpliada] = useState(false)
+
+  const cerrarLightbox = useCallback(() => setFotoAmpliada(false), [])
+
+  const imagenes = remera.imagenes ?? []
+  const tallas = remera.tallas ?? ({} as Tallas)
+
+  const mensaje = tallaSeleccionada
+    ? `Hola! Me interesa la remera "${remera.nombre}" en talle ${tallaSeleccionada}. ¿Está disponible?`
+    : ''
+  const linkWhatsapp = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`
+
+  return (
+    <div className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white transition hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-900">
+      <div className="relative aspect-square bg-neutral-100 dark:bg-neutral-800">
+        {imagenes.length > 0 ? (
+          <button
+            type="button"
+            onClick={() => setFotoAmpliada(true)}
+            aria-label="Ver foto más grande"
+            className="block h-full w-full cursor-zoom-in bg-transparent p-0"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={imagenes[indice]}
+              alt={remera.nombre}
+              className="h-full w-full object-cover"
+            />
+          </button>
+        ) : (
+          <div className="flex h-full items-center justify-center text-sm text-neutral-400">
+            Sin foto
+          </div>
+        )}
+
+        {imagenes.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={() => setIndice((i) => (i - 1 + imagenes.length) % imagenes.length)}
+              aria-label="Foto anterior"
+              className="absolute left-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition group-hover:opacity-100"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              onClick={() => setIndice((i) => (i + 1) % imagenes.length)}
+              aria-label="Foto siguiente"
+              className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition group-hover:opacity-100"
+            >
+              ›
+            </button>
+            <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1">
+              {imagenes.map((_, i) => (
+                <span
+                  key={i}
+                  className={`h-1.5 w-1.5 rounded-full ${i === indice ? 'bg-white' : 'bg-white/40'}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+
+      <div className="flex flex-1 flex-col gap-3 p-4">
+        <div>
+          <h2 className="font-medium text-neutral-900 dark:text-white">{remera.nombre}</h2>
+          {remera.descripcion && (
+            <p className="mt-1 line-clamp-2 text-sm text-neutral-500 dark:text-neutral-400">
+              {remera.descripcion}
+            </p>
+          )}
+        </div>
+
+        <p className="text-lg font-semibold text-neutral-900 dark:text-white">
+          Gs. {Number(remera.precio).toLocaleString('es-PY')}
+        </p>
+
+        <div className="mt-auto space-y-3">
+          <div>
+            <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-neutral-400">
+              Talle
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {TALLAS.map((talla) => {
+                const disponible = Boolean(tallas[talla])
+                const seleccionado = tallaSeleccionada === talla
+                return (
+                  <button
+                    key={talla}
+                    type="button"
+                    disabled={!disponible}
+                    onClick={() =>
+                      setTallaSeleccionada((prev) => (prev === talla ? null : talla))
+                    }
+                    className={[
+                      'h-8 w-10 rounded-md border text-sm transition',
+                      !disponible
+                        ? 'cursor-not-allowed border-neutral-100 text-neutral-300 line-through dark:border-neutral-800 dark:text-neutral-700'
+                        : seleccionado
+                        ? 'border-neutral-900 bg-neutral-900 text-white dark:border-white dark:bg-white dark:text-neutral-900'
+                        : 'border-neutral-300 text-neutral-700 hover:border-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white',
+                    ].join(' ')}
+                  >
+                    {talla}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <a
+            href={tallaSeleccionada ? linkWhatsapp : undefined}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              if (!tallaSeleccionada) e.preventDefault()
+            }}
+            aria-disabled={!tallaSeleccionada}
+            className={[
+              'flex w-full items-center justify-center gap-2 rounded-md py-2 text-sm font-medium transition',
+              tallaSeleccionada
+                ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+                : 'cursor-not-allowed bg-neutral-100 text-neutral-400 dark:bg-neutral-800 dark:text-neutral-600',
+            ].join(' ')}
+          >
+            Pedir por WhatsApp
+          </a>
+        </div>
+      </div>
+
+      {fotoAmpliada && (
+        <Lightbox imagenes={imagenes} inicio={indice} onCerrar={cerrarLightbox} />
+      )}
+    </div>
+  )
+}
