@@ -1,4 +1,10 @@
+import type { Metadata } from 'next'
 import { login } from './actions'
+
+export const metadata: Metadata = {
+  title: 'Iniciar sesión',
+  robots: { index: false, follow: false },
+}
 
 export default async function LoginPage({
   searchParams,
