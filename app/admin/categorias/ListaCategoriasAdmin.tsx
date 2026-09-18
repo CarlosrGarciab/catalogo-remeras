@@ -72,6 +72,12 @@ export default function ListaCategoriasAdmin({ categorias }: { categorias: Categ
               </div>
 
               <div className="flex flex-1 items-center gap-2">
+                <BotonActivaCategoria id={cat.id} activa={activa} />
+                {!activa && (
+                  <span className="shrink-0 rounded-full bg-neutral-200 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-neutral-600 dark:bg-neutral-700 dark:text-neutral-300">
+                    Inactiva
+                  </span>
+                )}
                 <form action={updateCategoria} className="flex flex-1 items-center gap-2">
                   <input type="hidden" name="id" value={cat.id} />
                   <input name="etiqueta" defaultValue={cat.etiqueta} className={inputClass} />
@@ -82,12 +88,6 @@ export default function ListaCategoriasAdmin({ categorias }: { categorias: Categ
                     Guardar
                   </button>
                 </form>
-                {!activa && (
-                  <span className="shrink-0 rounded-full bg-neutral-200 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-neutral-600 dark:bg-neutral-700 dark:text-neutral-300">
-                    Inactiva
-                  </span>
-                )}
-                <BotonActivaCategoria id={cat.id} activa={activa} />
               </div>
               <BotonEliminarCategoria id={cat.id} slug={cat.slug} etiqueta={cat.etiqueta} />
             </div>
