@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState, useTransition } from 'react'
+import { useEffect, useMemo, useState, useTransition } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import TallaCheckbox from './TallaCheckbox'
@@ -36,17 +36,26 @@ export default function ListaRemerasAdmin({
   remeras,
   categorias,
   terminoInicial = '',
+  categoriaInicial = '',
 }: {
   remeras: Remera[]
   categorias: Categoria[]
   terminoInicial?: string
+  categoriaInicial?: string
 }) {
   const [termino, setTermino] = useState(terminoInicial)
-  const [categoria, setCategoria] = useState('')
+  const [categoria, setCategoria] = useState(categoriaInicial)
   const etiquetaPorSlug = useMemo(
     () => new Map(categorias.map((c) => [c.slug, c.etiqueta])),
     [categorias]
   )
+
+  useEffect(() => {
+    const url = categoria
+      ? '/admin?categoria=' + encodeURIComponent(categoria)
+      : '/admin'
+    history.replaceState({}, '', url)
+  }, [categoria])
 
   const filtradas = useMemo(() => {
     const t = termino.trim().toLowerCase()
@@ -168,7 +177,7 @@ export default function ListaRemerasAdmin({
               <div className="flex shrink-0 items-center gap-4">
                 <BotonActivaRemera remeraId={remera.id} activa={activa} />
                 <Link
-                  href={`/admin/${remera.id}/editar`}
+                  href={`/admin/${remera.id}/editar${categoria ? '?categoria=' + encodeURIComponent(categoria) : ''}`}
                   className="text-sm text-neutral-500 underline underline-offset-4 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
                 >
                   Editar

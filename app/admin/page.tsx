@@ -8,9 +8,9 @@ import type { Remera } from '@/types/remera'
 export default async function AdminPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; aviso?: string }>
+  searchParams: Promise<{ q?: string; aviso?: string; categoria?: string }>
 }) {
-  const { q, aviso } = await searchParams
+  const { q, aviso, categoria } = await searchParams
   const termino = (q ?? '').trim()
 
   const supabase = await createClient()
@@ -23,6 +23,7 @@ export default async function AdminPage({
     a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })
   )
   const pendientes = (pedidosData?.data?.filter((p: { entregado: boolean }) => !p.entregado) ?? []).length
+  const categoriaInicial = categoria && categorias.some((c) => c.slug === categoria) ? categoria : ''
 
   return (
     <main className="min-h-screen bg-neutral-50 px-4 py-10 dark:bg-neutral-950 sm:px-8">
@@ -78,7 +79,12 @@ export default async function AdminPage({
           </Link>
         </div>
 
-        <ListaRemerasAdmin remeras={remeras} categorias={categorias} terminoInicial={termino} />
+        <ListaRemerasAdmin
+          remeras={remeras}
+          categorias={categorias}
+          terminoInicial={termino}
+          categoriaInicial={categoriaInicial}
+        />
       </div>
     </main>
   )

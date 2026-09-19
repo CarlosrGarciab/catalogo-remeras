@@ -12,9 +12,11 @@ import type { Remera, Tallas } from '@/types/remera'
 export default function FormEditarRemera({
   remera,
   categorias,
+  categoriaVolver = '',
 }: {
   remera: Remera
   categorias: Categoria[]
+  categoriaVolver?: string
 }) {
   const [isPending, startTransition] = useTransition()
   const [archivos, setArchivos] = useState<File[]>([])
@@ -53,6 +55,7 @@ export default function FormEditarRemera({
       className="space-y-5 rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
     >
       <input type="hidden" name="id" value={remera.id} />
+      <input type="hidden" name="categoria_volver" value={categoriaVolver} />
 
       <Campo label="Nombre">
         <input name="nombre" defaultValue={remera.nombre} required className={inputClass} />

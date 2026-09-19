@@ -150,16 +150,19 @@ export async function updateRemera(formData: FormData) {
   revalidatePath('/admin')
   revalidatePath('/')
 
+  const categoriaVolver = (formData.get('categoria_volver') as string) || ''
+  const volverAdmin = (aviso: string) =>
+    '/admin?aviso=' + encodeURIComponent(aviso) + (categoriaVolver ? '&categoria=' + encodeURIComponent(categoriaVolver) : '')
+
   if (falladas > 0) {
     redirect(
-      '/admin?aviso=' +
-        encodeURIComponent(
-          `La remera se actualizó, pero ${falladas} foto${falladas === 1 ? '' : 's'} nueva${falladas === 1 ? '' : 's'} no se pudo${falladas === 1 ? '' : 'n'} subir y no se guardó.`
-        )
+      volverAdmin(
+        `La remera se actualizó, pero ${falladas} foto${falladas === 1 ? '' : 's'} nueva${falladas === 1 ? '' : 's'} no se pudo${falladas === 1 ? '' : 'n'} subir y no se guardó.`
+      )
     )
   }
 
-  redirect('/admin')
+  redirect('/admin' + (categoriaVolver ? '?categoria=' + encodeURIComponent(categoriaVolver) : ''))
 }
 
 export async function deleteRemera(formData: FormData) {

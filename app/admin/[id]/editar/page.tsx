@@ -6,10 +6,13 @@ import type { Remera } from '@/types/remera'
 
 export default async function EditarRemeraPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>
+  searchParams: Promise<{ categoria?: string }>
 }) {
   const { id } = await params
+  const { categoria } = await searchParams
   const supabase = await createClient()
   const [{ data: remera }, categorias] = await Promise.all([
     supabase.from('remeras').select('*').eq('id', id).single(),
@@ -25,7 +28,11 @@ export default async function EditarRemeraPage({
           Editar remera
         </h1>
 
-        <FormEditarRemera remera={remera as Remera} categorias={categorias} />
+        <FormEditarRemera
+          remera={remera as Remera}
+          categorias={categorias}
+          categoriaVolver={categoria}
+        />
       </div>
     </main>
   )
