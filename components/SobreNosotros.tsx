@@ -1,23 +1,24 @@
 export function SobreNosotros() {
   const items = [
     {
-      titulo: 'Calidad Tailandesa',
+      titulo: 'Calidad premium Tailandesa',
       texto:
-        'Remeras de fútbol importadas directamente de Tailandia, reconocidas por la muy buena calidad de la tela y el estampado.',
+        'Remeras importadas de Tailandia de calidad premium, en talles de P a XXL. La mayoría son con estampado bordado y también hay termoselladas: lo que ves en la foto es literalmente lo que recibís.',
     },
     {
-      titulo: 'Tela Dry Fit',
+      titulo: 'Envíos gratis (UNA)',
       texto:
-        'Liviana, transpirable y de secado rápido. Fresca para el día a día, en la oficina o en la cancha.',
+        'Si sos de la UNA, el envío es gratis. Coordinamos la entrega por nuestro chat de WhatsApp desde que dejás la seña.',
     },
     {
-      titulo: 'Talles P a XXL',
-      texto: 'Un talle para cada persona. Tenés disponibilidad real de P a XXL sin sorpresas al recibir.',
+      titulo: 'Pagos fáciles',
+      texto:
+        'Pagás con transferencia o en efectivo. Dejás una seña del 50% para reservar tu remera y el resto al recibir.',
     },
     {
-      titulo: 'Atención de 8 a 18 h',
+      titulo: 'Atención 8 a 18 h',
       texto:
-        'Te respondemos por WhatsApp para ayudarte con tu pedido, los precios y la coordinación de la entrega.',
+        'Te respondemos por WhatsApp de lunes a sábado de 8 a 18 h y los domingos de 8 a 12 h, para tu pedido y la coordinación de la entrega.',
     },
   ]
 
@@ -26,8 +27,7 @@ export function SobreNosotros() {
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-neutral-900 dark:text-white">Sobre nosotros</h2>
         <p className="mt-1 text-neutral-500 dark:text-neutral-400">
-          Valheim Remeras · Reforzamos tu equipo con remeras de fútbol de calidad Tailandesa y tela
-          Dry Fit.
+          Remeras de fútbol con calidad Tailandesa, tela Dry Fit y talles de P a XXL.
         </p>
       </div>
 
