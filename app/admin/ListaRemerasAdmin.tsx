@@ -42,6 +42,7 @@ export default function ListaRemerasAdmin({
   terminoInicial?: string
 }) {
   const [termino, setTermino] = useState(terminoInicial)
+  const [categoria, setCategoria] = useState('')
   const etiquetaPorSlug = useMemo(
     () => new Map(categorias.map((c) => [c.slug, c.etiqueta])),
     [categorias]
@@ -49,16 +50,42 @@ export default function ListaRemerasAdmin({
 
   const filtradas = useMemo(() => {
     const t = termino.trim().toLowerCase()
-    if (!t) return remeras
-    return remeras.filter(
-      (r) =>
+    return remeras.filter((r) => {
+      if (categoria && r.categoria !== categoria) return false
+      if (!t) return true
+      return (
         r.nombre.toLowerCase().includes(t) ||
         (r.descripcion ?? '').toLowerCase().includes(t)
-    )
-  }, [remeras, termino])
+      )
+    })
+  }, [remeras, termino, categoria])
+
+  const pillClass = (activa: boolean) =>
+    [
+      'rounded-full border px-3 py-1 text-xs font-medium transition',
+      activa
+        ? 'border-neutral-900 bg-neutral-900 text-white dark:border-white dark:bg-white dark:text-neutral-900'
+        : 'border-neutral-300 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white dark:hover:text-white',
+    ].join(' ')
 
   return (
     <div className="space-y-3">
+      <nav className="flex flex-wrap gap-2">
+        <button type="button" onClick={() => setCategoria('')} className={pillClass(!categoria)}>
+          Todos
+        </button>
+        {categorias.map((cat) => (
+          <button
+            key={cat.slug}
+            type="button"
+            onClick={() => setCategoria(cat.slug)}
+            className={pillClass(categoria === cat.slug)}
+          >
+            {cat.etiqueta}
+          </button>
+        ))}
+      </nav>
+
       <div className="max-w-sm">
         <div className="relative">
           <input
