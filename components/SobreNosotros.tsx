@@ -27,7 +27,7 @@ export function SobreNosotros() {
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-neutral-900 dark:text-white">Sobre nosotros</h2>
         <p className="mt-1 text-neutral-500 dark:text-neutral-400">
-          Remeras de fútbol con calidad Tailandesa, tela Dry Fit y talles de P a XXL.
+          Remeras de fútbol calidad Tailandesa
         </p>
       </div>
 
