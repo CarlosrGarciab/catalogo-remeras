@@ -3,12 +3,22 @@ export function SobreNosotros() {
     {
       titulo: 'Calidad premium Tailandesa',
       texto:
-        'Remeras importadas de Tailandia de calidad premium, en talles de P a XXL.',
+        'Remeras importadas de Tailandia de calidad premium, en talles de P a XXL. La mayoría son con estampado bordado y también hay termoselladas: lo que ves en la foto es literalmente lo que recibís.',
     },
     {
       titulo: 'Envíos gratis (UNA)',
       texto:
-        'Si sos de la UNA, el envío es gratis. Coordinamos la entrega por nuestro chat de WhatsApp.',
+        'Si sos de la UNA, el envío es gratis. Coordinamos la entrega por nuestro chat de WhatsApp desde que dejás la seña.',
+    },
+    {
+      titulo: 'Pagos fáciles',
+      texto:
+        'Pagás con transferencia o en efectivo. Dejás una seña del 50% para reservar tu remera y el resto al recibir.',
+    },
+    {
+      titulo: 'Atención 8 a 18 h',
+      texto:
+        'Te respondemos por WhatsApp de lunes a sábado de 8 a 18 h y los domingos de 8 a 12 h, para tu pedido y la coordinación de la entrega.',
     },
   ]
 
