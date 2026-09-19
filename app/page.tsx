@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import CatalogoClient from '@/components/CatalogoClient'
 import { PasosCompra } from '@/components/PasosCompra'
+import { SobreNosotros } from '@/components/SobreNosotros'
 import Header from '@/components/Header'
 import WhatsAppFlotante from '@/components/WhatsAppFlotante'
 import { obtenerCategorias } from '@/lib/categorias'
@@ -73,6 +74,8 @@ export default async function HomePage({
         />
 
         <PasosCompra />
+
+        <SobreNosotros />
       </div>
 
       <WhatsAppFlotante />
