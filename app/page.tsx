@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import CatalogoClient from '@/components/CatalogoClient'
-import { PasosCompra } from '@/components/PasosCompra'
 import { SobreNosotros } from '@/components/SobreNosotros'
 import Header from '@/components/Header'
 import WhatsAppFlotante from '@/components/WhatsAppFlotante'
@@ -72,8 +71,6 @@ export default async function HomePage({
           etiquetasPorSlug={etiquetasPorSlug}
           mostrarCategoria={mostrarCategoria}
         />
-
-        <PasosCompra />
 
         <SobreNosotros />
       </div>
