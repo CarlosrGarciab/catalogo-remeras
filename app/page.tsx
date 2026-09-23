@@ -80,7 +80,7 @@ export default async function HomePage() {
             Bordadas y termoselladas, talles P a XXL. Envíos gratis en la UNA y pedidos por
             WhatsApp con seña del 50%.
           </p>
-          <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:justify-center sm:gap-4">
+          <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4">
             <Link
               href="/catalogo"
               className="w-full rounded-md bg-white px-8 py-3.5 text-sm font-semibold text-neutral-900 transition hover:bg-neutral-200 sm:w-auto"
@@ -98,6 +98,12 @@ export default async function HomePage() {
               className="w-full rounded-md border border-neutral-700 px-8 py-3.5 text-sm font-semibold text-neutral-200 transition hover:border-white hover:text-white sm:w-auto"
             >
               Novedades
+            </Link>
+            <Link
+              href="#sobre-nosotros"
+              className="w-full rounded-md border border-neutral-700 px-8 py-3.5 text-sm font-semibold text-neutral-200 transition hover:border-white hover:text-white sm:w-auto"
+            >
+              Sobre nosotros
             </Link>
           </div>
         </div>

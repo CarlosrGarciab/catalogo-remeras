@@ -23,7 +23,10 @@ export function SobreNosotros() {
   ]
 
   return (
-    <section className="mt-16 border-t border-neutral-200 pt-10 dark:border-neutral-800">
+    <section
+      id="sobre-nosotros"
+      className="mt-16 scroll-mt-8 border-t border-neutral-200 pt-10 dark:border-neutral-800"
+    >
       <div className="mb-6">
         <h2 className="text-2xl font-semibold text-neutral-900 dark:text-white">Sobre nosotros</h2>
         <p className="mt-1 text-neutral-500 dark:text-neutral-400">
