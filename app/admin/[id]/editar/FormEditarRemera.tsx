@@ -112,6 +112,16 @@ export default function FormEditarRemera({
         </div>
       </Campo>
 
+      <label className="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-300">
+        <input
+          type="checkbox"
+          name="destacada"
+          defaultChecked={Boolean(remera.destacada)}
+          className="rounded"
+        />
+        Mostrar en la portada (destacada)
+      </label>
+
       {orden.length > 0 && (
         <Campo label="Fotos actuales (la primera es la principal; usá las flechas para ordenar)">
           <div className="grid grid-cols-3 gap-3">

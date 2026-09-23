@@ -11,9 +11,11 @@ const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? ''
 export default function RemeraCard({
   remera,
   categoriaEtiqueta,
+  nuevo = false,
 }: {
   remera: Remera
   categoriaEtiqueta?: string
+  nuevo?: boolean
 }) {
   const [indice, setIndice] = useState(0)
   const [tallaSeleccionada, setTallaSeleccionada] = useState<keyof Tallas | null>(null)
@@ -57,6 +59,12 @@ export default function RemeraCard({
         {sinStock && (
           <span className="absolute left-2 top-2 rounded-full bg-red-600 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
             Sin stock
+          </span>
+        )}
+
+        {nuevo && (
+          <span className="absolute right-2 top-2 rounded-full bg-emerald-600 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+            Nuevo
           </span>
         )}
 

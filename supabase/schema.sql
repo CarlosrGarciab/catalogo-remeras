@@ -65,6 +65,8 @@ alter table public.remeras add column if not exists categoria text;
 alter table public.remeras add column if not exists imagenes text[] not null default '{}';
 alter table public.remeras add column if not exists tallas jsonb not null default '{"P": true, "M": true, "G": true, "XL": true, "XXL": true}';
 alter table public.remeras add column if not exists activa boolean not null default true;
+-- Destacadas: las que el admin elige para mostrarse en el carrusel de la página de inicio
+alter table public.remeras add column if not exists destacada boolean not null default false;
 alter table public.categorias add column if not exists activa boolean not null default true;
 
 notify pgrst, 'reload schema';

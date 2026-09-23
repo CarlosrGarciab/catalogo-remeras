@@ -1,77 +1,153 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
-import CatalogoClient from '@/components/CatalogoClient'
+import CarruselDestacadas from '@/components/CarruselDestacadas'
 import { SobreNosotros } from '@/components/SobreNosotros'
-import Header from '@/components/Header'
+import RemeraCard from '@/components/RemeraCard'
 import WhatsAppFlotante from '@/components/WhatsAppFlotante'
 import { obtenerCategorias } from '@/lib/categorias'
 import type { Remera } from '@/types/remera'
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ categoria?: string; q?: string }>
-}) {
-  const { categoria, q } = await searchParams
+const DIAS_NUEVO = 30
+const CANTIDAD_NOVEDADES = 4
+
+function esNuevo(createdAt: string) {
+  const dias = (Date.now() - new Date(createdAt).getTime()) / (1000 * 60 * 60 * 24)
+  return dias <= DIAS_NUEVO
+}
+
+export default async function HomePage() {
   const categorias = await obtenerCategorias({ soloActivas: true })
-  const categoriaActiva = categorias.some((c) => c.slug === categoria)
-    ? (categoria as string)
-    : null
-  const etiquetasPorSlug = Object.fromEntries(categorias.map((c) => [c.slug, c.etiqueta]))
   const slugsActivos = categorias.map((c) => c.slug)
-  const termino = (q ?? '').trim()
-  const mostrarCategoria = !categoriaActiva
+  const etiquetasPorSlug = Object.fromEntries(categorias.map((c) => [c.slug, c.etiqueta]))
 
   const supabase = await createClient()
-  let query = supabase.from('remeras').select('*').eq('activa', true)
-  if (slugsActivos.length > 0) query = query.in('categoria', slugsActivos)
-  if (categoriaActiva) query = query.eq('categoria', categoriaActiva)
-  const { data } = await query
 
-  const remeras = [...((data as Remera[]) ?? [])].sort((a, b) =>
+  let queryDestacadas = supabase.from('remeras').select('*').eq('activa', true).eq('destacada', true)
+  if (slugsActivos.length > 0) queryDestacadas = queryDestacadas.in('categoria', slugsActivos)
+  const { data: dataDestacadas } = await queryDestacadas
+
+  let queryNovedades = supabase
+    .from('remeras')
+    .select('*')
+    .eq('activa', true)
+    .order('created_at', { ascending: false })
+    .limit(CANTIDAD_NOVEDADES)
+  if (slugsActivos.length > 0) queryNovedades = queryNovedades.in('categoria', slugsActivos)
+  const { data: dataNovedades } = await queryNovedades
+
+  const destacadas = ((dataDestacadas as Remera[]) ?? []).sort((a, b) =>
     a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })
   )
+  const novedades = ((dataNovedades as Remera[]) ?? []).slice(0, CANTIDAD_NOVEDADES)
 
   return (
-    <main className="min-h-screen bg-neutral-50 px-4 py-10 dark:bg-neutral-950 sm:px-8">
-      <div className="mx-auto max-w-6xl">
-        <Header />
-
-        <nav className="mb-8 flex flex-wrap gap-2">
-          <Link
-            href="/"
-            className={[
-              'rounded-full border px-4 py-1.5 text-sm transition',
-              !categoriaActiva
-                ? 'border-neutral-900 bg-neutral-900 text-white dark:border-white dark:bg-white dark:text-neutral-900'
-                : 'border-neutral-300 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white dark:hover:text-white',
-            ].join(' ')}
-          >
-            Todos
-          </Link>
-          {categorias.map((cat) => (
+    <main className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+      <section className="bg-neutral-900 dark:bg-neutral-950">
+        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Image
+                src="/logo.png"
+                alt="Logo de la tienda"
+                width={48}
+                height={48}
+                className="h-12 w-12 rounded-full object-cover shadow-sm"
+              />
+              <span className="text-xl font-semibold text-white">Valheim Remeras</span>
+            </div>
             <Link
-              key={cat.slug}
-              href={`/?categoria=${cat.slug}`}
-              className={[
-                'rounded-full border px-4 py-1.5 text-sm transition',
-                categoriaActiva === cat.slug
-                  ? 'border-neutral-900 bg-neutral-900 text-white dark:border-white dark:bg-white dark:text-neutral-900'
-                  : 'border-neutral-300 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white dark:hover:text-white',
-              ].join(' ')}
+              href="/catalogo"
+              className="rounded-full border border-neutral-700 px-4 py-1.5 text-sm text-neutral-200 transition hover:border-white hover:text-white"
             >
-              {cat.etiqueta}
+              Catálogo
             </Link>
-          ))}
-        </nav>
+          </div>
+        </div>
 
-        <CatalogoClient
-          remeras={remeras}
-          terminoInicial={termino}
-          etiquetasPorSlug={etiquetasPorSlug}
-          mostrarCategoria={mostrarCategoria}
-        />
+        <div className="mx-auto max-w-3xl px-4 pb-20 pt-10 text-center sm:px-8">
+          <p className="mb-4 inline-block rounded-full border border-neutral-700 px-4 py-1 text-xs font-medium uppercase tracking-wider text-neutral-300">
+            Réplicas de fútbol · Clubes y selecciones
+          </p>
+          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            Las camisetas que soñás, con calidad premium
+          </h1>
+          <p className="mx-auto mt-4 max-w-xl text-neutral-400">
+            Bordadas y termoselladas, talles P a XXL. Envíos gratis en la UNA y pedidos por
+            WhatsApp con seña del 50%.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/catalogo"
+              className="rounded-md bg-white px-8 py-3 text-sm font-semibold text-neutral-900 transition hover:bg-neutral-200"
+            >
+              Ver catálogo
+            </Link>
+            <Link
+              href="#novedades"
+              className="rounded-md border border-neutral-700 px-8 py-3 text-sm font-semibold text-neutral-200 transition hover:border-white hover:text-white"
+            >
+              Novedades
+            </Link>
+          </div>
+        </div>
+      </section>
 
+      {destacadas.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 py-14 sm:px-8">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="text-2xl font-semibold text-neutral-900 dark:text-white">
+                Más vendidas
+              </h2>
+              <p className="mt-1 text-neutral-500 dark:text-neutral-400">
+                Las preferidas por nuestros clientes
+              </p>
+            </div>
+            <Link
+              href="/catalogo"
+              className="text-sm text-neutral-500 underline underline-offset-4 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
+            >
+              Ver todo el catálogo
+            </Link>
+          </div>
+          <CarruselDestacadas remeras={destacadas} etiquetasPorSlug={etiquetasPorSlug} />
+        </section>
+      )}
+
+      {novedades.length > 0 && (
+        <section id="novedades" className="mx-auto max-w-6xl px-4 pb-14 sm:px-8">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="text-2xl font-semibold text-neutral-900 dark:text-white">
+                Novedades
+              </h2>
+              <p className="mt-1 text-neutral-500 dark:text-neutral-400">
+                Las últimas remeras que llegaron
+              </p>
+            </div>
+            <Link
+              href="/catalogo"
+              className="text-sm text-neutral-500 underline underline-offset-4 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
+            >
+              Ver todas
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {novedades.map((remera) => (
+              <RemeraCard
+                key={remera.id}
+                remera={remera}
+                nuevo={esNuevo(remera.created_at)}
+                categoriaEtiqueta={etiquetasPorSlug[remera.categoria]}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <div className="mx-auto max-w-6xl px-4 sm:px-8">
         <SobreNosotros />
       </div>
 

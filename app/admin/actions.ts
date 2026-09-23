@@ -61,10 +61,11 @@ export async function addRemera(formData: FormData) {
   const precio = Number(formData.get('precio'))
   const categoria = formData.get('categoria') as string
   const tallas = leerTallas(formData)
+  const destacada = formData.get('destacada') === 'on'
 
   const { data: remera, error } = await supabase
     .from('remeras')
-    .insert({ nombre, descripcion, precio, categoria, tallas })
+    .insert({ nombre, descripcion, precio, categoria, tallas, destacada })
     .select()
     .single()
 
@@ -99,6 +100,7 @@ export async function addRemera(formData: FormData) {
 
   revalidatePath('/admin')
   revalidatePath('/')
+  revalidatePath('/catalogo')
   redirect('/admin')
 }
 
@@ -111,6 +113,7 @@ export async function updateRemera(formData: FormData) {
   const precio = Number(formData.get('precio'))
   const categoria = formData.get('categoria') as string
   const tallas = leerTallas(formData)
+  const destacada = formData.get('destacada') === 'on'
 
   const { data: actual } = await supabase.from('remeras').select('imagenes').eq('id', id).single()
   let imagenes: string[] = actual?.imagenes ?? []
@@ -144,11 +147,12 @@ export async function updateRemera(formData: FormData) {
 
   await supabase
     .from('remeras')
-    .update({ nombre, descripcion, precio, categoria, tallas, imagenes })
+    .update({ nombre, descripcion, precio, categoria, tallas, imagenes, destacada })
     .eq('id', id)
 
   revalidatePath('/admin')
   revalidatePath('/')
+  revalidatePath('/catalogo')
 
   const categoriaVolver = (formData.get('categoria_volver') as string) || ''
   const volverAdmin = (aviso: string) =>
@@ -178,6 +182,7 @@ export async function deleteRemera(formData: FormData) {
 
   revalidatePath('/admin')
   revalidatePath('/')
+  revalidatePath('/catalogo')
 }
 
 export async function toggleTalla(remeraId: string, talla: keyof Tallas, disponibleActual: boolean) {
@@ -190,11 +195,20 @@ export async function toggleTalla(remeraId: string, talla: keyof Tallas, disponi
 
   revalidatePath('/admin')
   revalidatePath('/')
+  revalidatePath('/catalogo')
 }
 
 export async function toggleRemeraActiva(remeraId: string, activaActual: boolean) {
   const supabase = await createClient()
   await supabase.from('remeras').update({ activa: !activaActual }).eq('id', remeraId)
+  revalidatePath('/admin')
+  revalidatePath('/')
+  revalidatePath('/catalogo')
+}
+
+export async function toggleDestacada(remeraId: string, destacadaActual: boolean) {
+  const supabase = await createClient()
+  await supabase.from('remeras').update({ destacada: !destacadaActual }).eq('id', remeraId)
   revalidatePath('/admin')
   revalidatePath('/')
 }

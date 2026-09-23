@@ -40,7 +40,7 @@ export default async function AdminPage({
           </h1>
           <div className="flex items-center gap-4">
             <Link
-              href="/"
+              href="/catalogo"
               className="text-sm text-neutral-400 underline underline-offset-4 hover:text-neutral-900 dark:hover:text-white"
             >
               Ver catálogo

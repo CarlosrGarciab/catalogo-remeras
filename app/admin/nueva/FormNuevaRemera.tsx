@@ -71,6 +71,11 @@ export default function FormNuevaRemera({ categorias }: { categorias: Categoria[
         </div>
       </Campo>
 
+      <label className="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-300">
+        <input type="checkbox" name="destacada" className="rounded" />
+        Mostrar en la portada (destacada)
+      </label>
+
       <Campo label="Fotos (podés elegir varias, o una por una)">
         <SelectorFotos onCambio={setArchivos} />
       </Campo>
