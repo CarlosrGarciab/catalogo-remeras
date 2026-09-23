@@ -11,9 +11,11 @@ const INTERVALO = 3000
 export default function CarruselDestacadas({
   remeras,
   etiquetasPorSlug,
+  etiqueta = 'Más vendida',
 }: {
   remeras: Remera[]
   etiquetasPorSlug?: Record<string, string>
+  etiqueta?: string
 }) {
   const [indice, setIndice] = useState(0)
   const [pausado, setPausado] = useState(false)
@@ -64,7 +66,7 @@ export default function CarruselDestacadas({
             <div className="flex h-full items-center justify-center text-neutral-400">Sin foto</div>
           )}
           <span className="absolute left-3 top-3 rounded-full bg-black/70 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur">
-            Más vendida
+            {etiqueta}
           </span>
         </div>
 

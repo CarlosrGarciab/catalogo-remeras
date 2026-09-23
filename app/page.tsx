@@ -2,19 +2,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import CarruselDestacadas from '@/components/CarruselDestacadas'
-import CarruselNovedades from '@/components/CarruselNovedades'
 import { SobreNosotros } from '@/components/SobreNosotros'
 import WhatsAppFlotante from '@/components/WhatsAppFlotante'
 import { obtenerCategorias } from '@/lib/categorias'
 import type { Remera } from '@/types/remera'
 
-const DIAS_NUEVO = 30
 const CANTIDAD_NOVEDADES = 8
-
-function esNuevo(createdAt: string) {
-  const dias = (Date.now() - new Date(createdAt).getTime()) / (1000 * 60 * 60 * 24)
-  return dias <= DIAS_NUEVO
-}
 
 export default async function HomePage() {
   const categorias = await obtenerCategorias({ soloActivas: true })
@@ -40,9 +33,6 @@ export default async function HomePage() {
     a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })
   )
   const novedades = ((dataNovedades as Remera[]) ?? []).slice(0, CANTIDAD_NOVEDADES)
-  const nuevosPorId = Object.fromEntries(
-    (dataNovedades as Remera[] | null)?.map((r) => [r.id, esNuevo(r.created_at)]) ?? []
-  )
 
   return (
     <main className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
@@ -162,10 +152,10 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <CarruselNovedades
+          <CarruselDestacadas
             remeras={novedades}
             etiquetasPorSlug={etiquetasPorSlug}
-            nuevosPorId={nuevosPorId}
+            etiqueta="Novedad"
           />
         </section>
       )}
