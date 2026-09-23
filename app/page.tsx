@@ -99,36 +99,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-b border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900">
-        <div className="mx-auto grid max-w-6xl gap-4 px-4 py-10 sm:grid-cols-3 sm:px-8">
-          {[
-            {
-              titulo: 'Réplicas calidad tailandesa',
-              texto:
-                'Importadas de Tailandia, lo que ves en la foto es lo que recibís. La mayoría bordadas, también termoselladas.',
-            },
-            {
-              titulo: 'Tela dry fit',
-              texto:
-                'Tela dry fit que transpira, talles P a XXL. Ideal para usar y para coleccionar.',
-            },
-            {
-              titulo: 'Precios más que accesibles',
-              texto:
-                'Calidad premium a precios que no los vas a creer. Seña del 50% y coordinás la entrega por WhatsApp.',
-            },
-          ].map((item) => (
-            <div
-              key={item.titulo}
-              className="rounded-xl border border-neutral-200 bg-neutral-50 p-5 dark:border-neutral-800 dark:bg-neutral-950"
-            >
-              <h3 className="font-semibold text-neutral-900 dark:text-white">{item.titulo}</h3>
-              <p className="mt-1.5 text-sm text-neutral-500 dark:text-neutral-400">{item.texto}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section className="mx-auto max-w-6xl px-4 py-12 sm:px-8">
         <div className="mb-6">
           <h2 className="text-2xl font-semibold text-neutral-900 dark:text-white">Categorías</h2>
