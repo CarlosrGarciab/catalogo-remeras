@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Lightbox from './Lightbox'
 import type { Remera } from '@/types/remera'
 
-const INTERVALO = 4000
+const INTERVALO = 3000
 
 export default function CarruselDestacadas({
   remeras,
