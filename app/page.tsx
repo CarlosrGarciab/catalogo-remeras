@@ -1,13 +1,22 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import CarruselDestacadas from '@/components/CarruselDestacadas'
 import { SobreNosotros } from '@/components/SobreNosotros'
 import WhatsAppFlotante from '@/components/WhatsAppFlotante'
+import ProductJsonLd from '@/components/ProductJsonLd'
 import { obtenerCategorias } from '@/lib/categorias'
+import { siteUrl } from '@/lib/site'
 import type { Remera } from '@/types/remera'
 
 const CANTIDAD_NOVEDADES = 8
+const SITE_NAME = 'Valheim Réplicas'
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+  openGraph: { url: '/' },
+}
 
 export default async function HomePage() {
   const categorias = await obtenerCategorias({ soloActivas: true })
@@ -170,6 +179,23 @@ export default async function HomePage() {
           © {new Date().getFullYear()} Valheim Réplicas · Réplicas de fútbol
         </div>
       </footer>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'OnlineStore',
+            name: SITE_NAME,
+            url: siteUrl('/'),
+            image: siteUrl('/logo.png'),
+            description:
+              'Réplicas de camisetas de fútbol: clubes y selecciones. Talles P a XXL, pedidos por WhatsApp.',
+          }),
+        }}
+      />
+
+      <ProductJsonLd remeras={[...destacadas, ...novedades]} />
 
       <WhatsAppFlotante />
     </main>

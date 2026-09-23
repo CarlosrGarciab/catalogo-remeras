@@ -4,11 +4,16 @@ import { createClient } from '@/lib/supabase/server'
 import CatalogoClient from '@/components/CatalogoClient'
 import Header from '@/components/Header'
 import WhatsAppFlotante from '@/components/WhatsAppFlotante'
+import ProductJsonLd from '@/components/ProductJsonLd'
 import { obtenerCategorias } from '@/lib/categorias'
 import type { Remera } from '@/types/remera'
 
 export const metadata: Metadata = {
   title: 'Catálogo',
+  description:
+    'Todas las réplicas de camisetas de fútbol disponibles: clubes y selecciones. Elegí tu talle y pedila por WhatsApp.',
+  alternates: { canonical: '/catalogo' },
+  openGraph: { url: '/catalogo' },
 }
 
 export default async function CatalogoPage({
@@ -83,6 +88,8 @@ export default async function CatalogoPage({
           mostrarCategoria={mostrarCategoria}
         />
       </div>
+
+      <ProductJsonLd remeras={remeras} />
 
       <WhatsAppFlotante />
     </main>
