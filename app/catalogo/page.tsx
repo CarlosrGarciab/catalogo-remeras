@@ -37,7 +37,7 @@ export default async function CatalogoPage({
   )
 
   return (
-    <main className="min-h-screen bg-neutral-50 px-4 py-10 dark:bg-neutral-950 sm:px-8">
+    <main className="min-h-screen bg-neutral-50 px-4 pb-16 pt-10 dark:bg-neutral-950 sm:px-8">
       <div className="mx-auto max-w-6xl">
         <Link
           href="/"
@@ -52,7 +52,7 @@ export default async function CatalogoPage({
           <Link
             href="/catalogo"
             className={[
-              'rounded-full border px-4 py-1.5 text-sm transition',
+              'rounded-full border px-4 py-2 text-sm transition sm:py-1.5',
               !categoriaActiva
                 ? 'border-neutral-900 bg-neutral-900 text-white dark:border-white dark:bg-white dark:text-neutral-900'
                 : 'border-neutral-300 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white dark:hover:text-white',
@@ -65,7 +65,7 @@ export default async function CatalogoPage({
               key={cat.slug}
               href={`/catalogo?categoria=${cat.slug}`}
               className={[
-                'rounded-full border px-4 py-1.5 text-sm transition',
+                'rounded-full border px-4 py-2 text-sm transition sm:py-1.5',
                 categoriaActiva === cat.slug
                   ? 'border-neutral-900 bg-neutral-900 text-white dark:border-white dark:bg-white dark:text-neutral-900'
                   : 'border-neutral-300 text-neutral-600 hover:border-neutral-900 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white dark:hover:text-white',

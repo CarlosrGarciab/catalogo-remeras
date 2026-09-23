@@ -60,33 +60,33 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <div className="relative mx-auto max-w-3xl px-4 pb-20 pt-10 text-center sm:px-8">
+        <div className="relative mx-auto max-w-3xl px-4 pb-14 pt-8 text-center sm:px-8 sm:pb-20 sm:pt-10">
           <p className="mb-4 inline-block rounded-full border border-neutral-700 px-4 py-1 text-xs font-medium uppercase tracking-wider text-neutral-300">
             Réplicas de fútbol · Clubes y selecciones
           </p>
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl">
             Las camisetas que soñás, con calidad premium
           </h1>
-          <p className="mx-auto mt-4 max-w-xl text-neutral-400">
+          <p className="mx-auto mt-4 max-w-xl text-sm text-neutral-400 sm:text-base">
             Bordadas y termoselladas, talles P a XXL. Envíos gratis en la UNA y pedidos por
             WhatsApp con seña del 50%.
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:justify-center sm:gap-4">
             <Link
               href="/catalogo"
-              className="rounded-md bg-white px-8 py-3 text-sm font-semibold text-neutral-900 transition hover:bg-neutral-200"
+              className="w-full rounded-md bg-white px-8 py-3.5 text-sm font-semibold text-neutral-900 transition hover:bg-neutral-200 sm:w-auto"
             >
               Ver catálogo
             </Link>
             <Link
               href="#mas-vendidas"
-              className="rounded-md border border-neutral-700 px-8 py-3 text-sm font-semibold text-neutral-200 transition hover:border-white hover:text-white"
+              className="w-full rounded-md border border-neutral-700 px-8 py-3.5 text-sm font-semibold text-neutral-200 transition hover:border-white hover:text-white sm:w-auto"
             >
               Más vendidas
             </Link>
             <Link
               href="#novedades"
-              className="rounded-md border border-neutral-700 px-8 py-3 text-sm font-semibold text-neutral-200 transition hover:border-white hover:text-white"
+              className="w-full rounded-md border border-neutral-700 px-8 py-3.5 text-sm font-semibold text-neutral-200 transition hover:border-white hover:text-white sm:w-auto"
             >
               Novedades
             </Link>
@@ -166,7 +166,7 @@ export default async function HomePage() {
       </div>
 
       <footer className="mt-4 border-t border-neutral-200 py-8 dark:border-neutral-800">
-        <div className="mx-auto max-w-6xl px-4 text-center text-sm text-neutral-400 dark:text-neutral-500 sm:px-8">
+        <div className="mx-auto max-w-6xl px-4 pb-[env(safe-area-inset-bottom)] text-center text-sm text-neutral-400 dark:text-neutral-500 sm:px-8">
           © {new Date().getFullYear()} Valheim Réplicas · Réplicas de fútbol
         </div>
       </footer>

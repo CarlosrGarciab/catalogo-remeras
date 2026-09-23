@@ -5,7 +5,7 @@ import RemeraCard from './RemeraCard'
 import type { Remera } from '@/types/remera'
 
 const inputClass =
-  'w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none transition focus:border-neutral-900 dark:border-neutral-700 dark:bg-neutral-950 dark:text-white dark:focus:border-white'
+  'w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-neutral-900 outline-none transition focus:border-neutral-900 dark:border-neutral-700 dark:bg-neutral-950 dark:text-white dark:focus:border-white'
 
 export default function CatalogoClient({
   remeras,
@@ -39,14 +39,14 @@ export default function CatalogoClient({
             value={termino}
             onChange={(e) => setTermino(e.target.value)}
             placeholder="Buscar remera por nombre..."
-            className={inputClass + ' pr-9'}
+            className={inputClass + ' pr-9 text-base sm:text-sm'}
           />
           {termino && (
             <button
               type="button"
               onClick={() => setTermino('')}
               aria-label="Limpiar búsqueda"
-              className="absolute right-2 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full bg-neutral-200 text-xs text-neutral-600 transition hover:bg-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-600"
+              className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-neutral-200 text-sm text-neutral-600 transition hover:bg-neutral-300 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-600"
             >
               ×
             </button>
@@ -65,7 +65,7 @@ export default function CatalogoClient({
           <p className="mb-4 text-sm text-neutral-500 dark:text-neutral-400">
             {filtradas.length} remera{filtradas.length === 1 ? '' : 's'}
           </p>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
             {filtradas.map((remera) => (
               <div
                 key={remera.id}

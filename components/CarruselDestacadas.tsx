@@ -72,13 +72,13 @@ export default function CarruselDestacadas({
           </span>
         </div>
 
-        <div className="flex flex-col justify-center gap-4 p-6 sm:p-10">
+        <div className="flex flex-col justify-center gap-3 p-5 sm:gap-4 sm:p-10">
           {etiquetasPorSlug?.[actual.categoria] && (
             <span className="w-fit rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-neutral-500 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
               {etiquetasPorSlug[actual.categoria]}
             </span>
           )}
-          <h3 className="text-2xl font-semibold text-neutral-900 dark:text-white sm:text-3xl">
+          <h3 className="text-xl font-semibold text-neutral-900 dark:text-white sm:text-3xl">
             {actual.nombre}
           </h3>
           {actual.descripcion && (
@@ -86,12 +86,12 @@ export default function CarruselDestacadas({
               {actual.descripcion}
             </p>
           )}
-          <p className="text-2xl font-semibold text-neutral-900 dark:text-white sm:text-3xl">
+          <p className="text-xl font-semibold text-neutral-900 dark:text-white sm:text-3xl">
             Gs. {Number(actual.precio).toLocaleString('es-PY')}
           </p>
           <Link
             href={`/catalogo#remera-${actual.id}`}
-            className="inline-flex w-fit items-center gap-2 rounded-md bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200 sm:w-fit sm:py-2.5"
           >
             Ver en el catálogo →
           </Link>
@@ -104,7 +104,7 @@ export default function CarruselDestacadas({
             type="button"
             onClick={() => ir(-1)}
             aria-label="Ver destacada anterior"
-            className="absolute right-16 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white transition hover:bg-black/80"
+            className="absolute right-16 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-xl text-white transition hover:bg-black/80 sm:top-3"
           >
             ‹
           </button>
@@ -112,7 +112,7 @@ export default function CarruselDestacadas({
             type="button"
             onClick={() => ir(1)}
             aria-label="Ver siguiente destacada"
-            className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white transition hover:bg-black/80"
+            className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-xl text-white transition hover:bg-black/80 sm:top-3"
           >
             ›
           </button>
