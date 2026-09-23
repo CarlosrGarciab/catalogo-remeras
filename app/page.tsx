@@ -40,6 +40,9 @@ export default async function HomePage() {
     a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })
   )
   const novedades = ((dataNovedades as Remera[]) ?? []).slice(0, CANTIDAD_NOVEDADES)
+  const nuevosPorId = Object.fromEntries(
+    (dataNovedades as Remera[] | null)?.map((r) => [r.id, esNuevo(r.created_at)]) ?? []
+  )
 
   return (
     <main className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
@@ -162,7 +165,7 @@ export default async function HomePage() {
           <CarruselNovedades
             remeras={novedades}
             etiquetasPorSlug={etiquetasPorSlug}
-            esNuevo={(remera) => esNuevo(remera.created_at)}
+            nuevosPorId={nuevosPorId}
           />
         </section>
       )}

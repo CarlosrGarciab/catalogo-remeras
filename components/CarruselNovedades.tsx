@@ -10,11 +10,11 @@ const POR_PAGINA = 4
 export default function CarruselNovedades({
   remeras,
   etiquetasPorSlug,
-  esNuevo,
+  nuevosPorId,
 }: {
   remeras: Remera[]
   etiquetasPorSlug: Record<string, string>
-  esNuevo: (remera: Remera) => boolean
+  nuevosPorId: Record<string, boolean>
 }) {
   const [pagina, setPagina] = useState(0)
   const [pausado, setPausado] = useState(false)
@@ -73,7 +73,7 @@ export default function CarruselNovedades({
           <RemeraCard
             key={remera.id}
             remera={remera}
-            nuevo={esNuevo(remera)}
+            nuevo={Boolean(nuevosPorId[remera.id])}
             categoriaEtiqueta={etiquetasPorSlug[remera.categoria]}
           />
         ))}
