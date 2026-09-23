@@ -36,8 +36,18 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
-      <section className="bg-neutral-900 dark:bg-neutral-950">
-        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8">
+      <section className="relative overflow-hidden bg-neutral-900 dark:bg-neutral-950">
+        <Image
+          src="/banner.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-neutral-900/70 dark:bg-neutral-950/80" />
+
+        <div className="relative mx-auto max-w-6xl px-4 py-8 sm:px-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Image
@@ -58,7 +68,7 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <div className="mx-auto max-w-3xl px-4 pb-20 pt-10 text-center sm:px-8">
+        <div className="relative mx-auto max-w-3xl px-4 pb-20 pt-10 text-center sm:px-8">
           <p className="mb-4 inline-block rounded-full border border-neutral-700 px-4 py-1 text-xs font-medium uppercase tracking-wider text-neutral-300">
             Réplicas de fútbol · Clubes y selecciones
           </p>
