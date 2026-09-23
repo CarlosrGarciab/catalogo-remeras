@@ -48,23 +48,15 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-neutral-900/70 dark:bg-neutral-950/80" />
 
         <div className="relative mx-auto max-w-6xl px-4 py-8 sm:px-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Image
-                src="/logo.png"
-                alt="Logo de la tienda"
-                width={48}
-                height={48}
-                className="h-12 w-12 rounded-full object-cover shadow-sm"
-              />
-              <span className="text-xl font-semibold text-white">Valheim Remeras</span>
-            </div>
-            <Link
-              href="/catalogo"
-              className="rounded-full border border-neutral-700 px-4 py-1.5 text-sm text-neutral-200 transition hover:border-white hover:text-white"
-            >
-              Catálogo
-            </Link>
+          <div className="flex items-center gap-3">
+            <Image
+              src="/logo.png"
+              alt="Logo de la tienda"
+              width={48}
+              height={48}
+              className="h-12 w-12 rounded-full object-cover shadow-sm"
+            />
+            <span className="text-xl font-semibold text-white">Valheim Remeras</span>
           </div>
         </div>
 
