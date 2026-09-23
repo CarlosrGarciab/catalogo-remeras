@@ -2,14 +2,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import CarruselDestacadas from '@/components/CarruselDestacadas'
+import CarruselNovedades from '@/components/CarruselNovedades'
 import { SobreNosotros } from '@/components/SobreNosotros'
-import RemeraCard from '@/components/RemeraCard'
 import WhatsAppFlotante from '@/components/WhatsAppFlotante'
 import { obtenerCategorias } from '@/lib/categorias'
 import type { Remera } from '@/types/remera'
 
 const DIAS_NUEVO = 30
-const CANTIDAD_NOVEDADES = 4
+const CANTIDAD_NOVEDADES = 8
 
 function esNuevo(createdAt: string) {
   const dias = (Date.now() - new Date(createdAt).getTime()) / (1000 * 60 * 60 * 24)
@@ -159,16 +159,11 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {novedades.map((remera) => (
-              <RemeraCard
-                key={remera.id}
-                remera={remera}
-                nuevo={esNuevo(remera.created_at)}
-                categoriaEtiqueta={etiquetasPorSlug[remera.categoria]}
-              />
-            ))}
-          </div>
+          <CarruselNovedades
+            remeras={novedades}
+            etiquetasPorSlug={etiquetasPorSlug}
+            esNuevo={(remera) => esNuevo(remera.created_at)}
+          />
         </section>
       )}
 

@@ -112,23 +112,25 @@ export default function CarruselDestacadas({
           >
             ›
           </button>
-
-          <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5">
-            {remeras.map((remera, i) => (
-              <button
-                key={remera.id}
-                type="button"
-                onClick={() => setIndice(i)}
-                aria-label={`Ir a la destacada ${i + 1}`}
-                className={`h-2 rounded-full transition-all ${
-                  i === indice
-                    ? 'w-6 bg-neutral-900 dark:bg-white'
-                    : 'w-2 bg-neutral-300 dark:bg-neutral-600'
-                }`}
-              />
-            ))}
-          </div>
         </>
+      )}
+
+      {remeras.length > 1 && (
+        <div className="flex items-center justify-center gap-1.5 border-t border-neutral-100 py-3 dark:border-neutral-800">
+          {remeras.map((remera, i) => (
+            <button
+              key={remera.id}
+              type="button"
+              onClick={() => setIndice(i)}
+              aria-label={`Ir a la destacada ${i + 1}`}
+              className={`h-2 rounded-full transition-all ${
+                i === indice
+                  ? 'w-6 bg-neutral-900 dark:bg-white'
+                  : 'w-2 bg-neutral-300 dark:bg-neutral-600'
+              }`}
+            />
+          ))}
+        </div>
       )}
 
       {fotoAmpliada && imagenes.length > 0 && (
