@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import Link from 'next/link'
 
 export default function Header() {
   return (
@@ -21,12 +20,6 @@ export default function Header() {
           </p>
         </div>
       </div>
-      <Link
-        href="/login"
-        className="text-sm text-neutral-400 underline underline-offset-4 hover:text-neutral-900 dark:hover:text-white"
-      >
-        Panel admin
-      </Link>
     </header>
   )
 }
