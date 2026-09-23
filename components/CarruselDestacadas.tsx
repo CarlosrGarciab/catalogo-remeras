@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Lightbox from './Lightbox'
+import { arrancarTick, suscribirseTick } from '@/lib/tickCarrusel'
 import type { Remera } from '@/types/remera'
-
-const INTERVALO = 3000
 
 export default function CarruselDestacadas({
   remeras,
@@ -22,9 +21,12 @@ export default function CarruselDestacadas({
   const [fotoAmpliada, setFotoAmpliada] = useState(false)
 
   useEffect(() => {
-    if (pausado || fotoAmpliada || remeras.length <= 1) return
-    const id = setInterval(() => setIndice((i) => (i + 1) % remeras.length), INTERVALO)
-    return () => clearInterval(id)
+    arrancarTick()
+    return suscribirseTick(() => {
+      if (!pausado && !fotoAmpliada && remeras.length > 1) {
+        setIndice((i) => (i + 1) % remeras.length)
+      }
+    })
   }, [pausado, fotoAmpliada, remeras.length])
 
   if (remeras.length === 0) return null
