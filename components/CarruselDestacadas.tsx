@@ -74,7 +74,7 @@ export default function CarruselDestacadas({
 
         <div className="flex flex-col justify-center gap-3 p-5 sm:gap-4 sm:p-10">
           {etiquetasPorSlug?.[actual.categoria] && (
-            <span className="w-fit max-w-full rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-[11px] font-medium uppercase leading-tight tracking-wide text-neutral-500 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+            <span className="w-fit max-w-full rounded-md border border-neutral-200 bg-neutral-50 px-3 py-1 text-[11px] font-medium uppercase leading-tight tracking-wide text-neutral-500 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
               {etiquetasPorSlug[actual.categoria]}
             </span>
           )}
