@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 
-const SITE_NAME = 'Valheim Remeras'
+const SITE_NAME = 'Valheim Réplicas'
 
 const metadataBase = new URL(
   process.env.NEXT_PUBLIC_SITE_URL ??
