@@ -15,29 +15,32 @@ export default function Lightbox({
   const [indice, setIndice] = useState(inicio % imagenes.length)
   const [escala, setEscala] = useState(1)
   const [pos, setPos] = useState({ x: 0, y: 0 })
+  const [arrastrando, setArrastrando] = useState(false)
 
   const contenedorRef = useRef<HTMLDivElement>(null)
   const arrastre = useRef<{ x: number; y: number; px: number; py: number } | null>(null)
   const total = imagenes.length
 
-  const anterior = useCallback(() => setIndice((i) => (i - 1 + total) % total), [total])
-  const siguiente = useCallback(() => setIndice((i) => (i + 1) % total), [total])
-
-  useEffect(() => {
-    setEscala(1)
-    setPos({ x: 0, y: 0 })
-    arrastre.current = null
-  }, [indice])
+  const irA = useCallback(
+    (delta: number) => {
+      arrastre.current = null
+      setArrastrando(false)
+      setEscala(1)
+      setPos({ x: 0, y: 0 })
+      setIndice((i) => (i + delta + total) % total)
+    },
+    [total]
+  )
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') onCerrar()
-      else if (e.key === 'ArrowLeft') anterior()
-      else if (e.key === 'ArrowRight') siguiente()
+      else if (e.key === 'ArrowLeft') irA(-1)
+      else if (e.key === 'ArrowRight') irA(1)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [onCerrar, anterior, siguiente])
+  }, [onCerrar, irA])
 
   useEffect(() => {
     const prev = document.body.style.overflow
@@ -76,6 +79,7 @@ export default function Lightbox({
   function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
     if (escala === 1) return
     arrastre.current = { x: pos.x, y: pos.y, px: e.clientX, py: e.clientY }
+    setArrastrando(true)
     ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
   }
 
@@ -87,9 +91,8 @@ export default function Lightbox({
 
   function onPointerUp() {
     arrastre.current = null
+    setArrastrando(false)
   }
-
-  const arrastrando = arrastre.current !== null
 
   return (
     <div
@@ -115,7 +118,7 @@ export default function Lightbox({
       <div ref={contenedorRef} className="relative flex-1 overflow-hidden select-none">
         <button
           type="button"
-          onClick={anterior}
+          onClick={() => irA(-1)}
           aria-label="Foto anterior"
           className="absolute left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-2xl text-white transition hover:bg-white/20"
         >
@@ -123,7 +126,7 @@ export default function Lightbox({
         </button>
         <button
           type="button"
-          onClick={siguiente}
+          onClick={() => irA(1)}
           aria-label="Foto siguiente"
           className="absolute right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-2xl text-white transition hover:bg-white/20"
         >
@@ -142,9 +145,7 @@ export default function Lightbox({
               transition: arrastrando ? 'none' : 'transform 150ms ease',
             }}
             className={`relative h-full w-full ${
-              escala > 1
-                ? 'cursor-grab active:cursor-grabbing'
-                : 'cursor-zoom-in'
+              escala > 1 ? 'cursor-grab active:cursor-grabbing' : 'cursor-zoom-in'
             }`}
           >
             <Image

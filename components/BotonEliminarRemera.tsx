@@ -12,7 +12,7 @@ export default function BotonEliminarRemera({ id, nombre }: { id: string; nombre
       mensaje={
         <>
           ¿Seguro que querés eliminar{' '}
-          <span className="font-medium text-neutral-900 dark:text-white">"{nombre}"</span>? Este
+          <span className="font-medium text-neutral-900 dark:text-white">“{nombre}”</span>? Este
           cambio no se puede deshacer y se borrarán sus fotos.
         </>
       }

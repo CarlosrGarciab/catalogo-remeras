@@ -3,9 +3,11 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { requireAdmin } from '@/lib/auth'
 import { slugify } from '@/lib/categorias'
 
 export async function addCategoria(formData: FormData) {
+  await requireAdmin()
   const supabase = await createClient()
   const etiqueta = (formData.get('etiqueta') as string).trim()
   const slug = slugify(etiqueta)
@@ -38,6 +40,7 @@ export async function addCategoria(formData: FormData) {
 }
 
 export async function updateCategoria(formData: FormData) {
+  await requireAdmin()
   const supabase = await createClient()
   const id = formData.get('id') as string
   const etiqueta = (formData.get('etiqueta') as string).trim()
@@ -61,6 +64,7 @@ export async function updateCategoria(formData: FormData) {
 }
 
 export async function deleteCategoria(formData: FormData) {
+  await requireAdmin()
   const supabase = await createClient()
   const id = formData.get('id') as string
   const slug = formData.get('slug') as string
@@ -92,6 +96,7 @@ export async function deleteCategoria(formData: FormData) {
 }
 
 export async function moverCategoria(id: string, direccion: -1 | 1) {
+  await requireAdmin()
   const supabase = await createClient()
   const { data } = await supabase
     .from('categorias')
@@ -114,6 +119,7 @@ export async function moverCategoria(id: string, direccion: -1 | 1) {
 }
 
 export async function toggleCategoriaActiva(id: string, activaActual: boolean) {
+  await requireAdmin()
   const supabase = await createClient()
   await supabase.from('categorias').update({ activa: !activaActual }).eq('id', id)
   revalidatePath('/admin/categorias')

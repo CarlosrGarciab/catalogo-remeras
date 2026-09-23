@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { requireAdmin } from '@/lib/auth'
 import type { Tallas } from '@/types/remera'
 
 const BUCKET = 'remeras-fotos'
@@ -54,6 +55,7 @@ async function subirImagenes(
 }
 
 export async function addRemera(formData: FormData) {
+  await requireAdmin()
   const supabase = await createClient()
 
   const nombre = formData.get('nombre') as string
@@ -105,6 +107,7 @@ export async function addRemera(formData: FormData) {
 }
 
 export async function updateRemera(formData: FormData) {
+  await requireAdmin()
   const supabase = await createClient()
 
   const id = formData.get('id') as string
@@ -170,6 +173,7 @@ export async function updateRemera(formData: FormData) {
 }
 
 export async function deleteRemera(formData: FormData) {
+  await requireAdmin()
   const supabase = await createClient()
   const id = formData.get('id') as string
 
@@ -186,6 +190,7 @@ export async function deleteRemera(formData: FormData) {
 }
 
 export async function toggleTalla(remeraId: string, talla: keyof Tallas, disponibleActual: boolean) {
+  await requireAdmin()
   const supabase = await createClient()
 
   const { data: remera } = await supabase.from('remeras').select('tallas').eq('id', remeraId).single()
@@ -199,6 +204,7 @@ export async function toggleTalla(remeraId: string, talla: keyof Tallas, disponi
 }
 
 export async function toggleRemeraActiva(remeraId: string, activaActual: boolean) {
+  await requireAdmin()
   const supabase = await createClient()
   await supabase.from('remeras').update({ activa: !activaActual }).eq('id', remeraId)
   revalidatePath('/admin')
@@ -207,6 +213,7 @@ export async function toggleRemeraActiva(remeraId: string, activaActual: boolean
 }
 
 export async function toggleDestacada(remeraId: string, destacadaActual: boolean) {
+  await requireAdmin()
   const supabase = await createClient()
   await supabase.from('remeras').update({ destacada: !destacadaActual }).eq('id', remeraId)
   revalidatePath('/admin')

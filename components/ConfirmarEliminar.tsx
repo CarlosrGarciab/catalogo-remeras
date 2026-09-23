@@ -20,7 +20,7 @@ export default function ConfirmarEliminar({
   className?: string
 }) {
   const [abierto, setAbierto] = useState(false)
-  const [isPending, startTransition] = useTransition()
+  const [isPending] = useTransition()
 
   useEffect(() => {
     if (!abierto) return

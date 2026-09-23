@@ -21,7 +21,7 @@ export default function BotonEliminarCategoria({
       mensaje={
         <>
           ¿Seguro que querés eliminar la categoría{' '}
-          <span className="font-medium text-neutral-900 dark:text-white">"{etiqueta}"</span>? Solo
+          <span className="font-medium text-neutral-900 dark:text-white">“{etiqueta}”</span>? Solo
           se puede si no tiene remeras asociadas.
         </>
       }

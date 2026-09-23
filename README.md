@@ -1,137 +1,116 @@
-# Catálogo de remeras (práctica con Supabase)
+# Valheim Réplicas — catálogo de remeras
 
-Tienda de camisetas de fútbol réplica, con panel admin, en Next.js 16 (App
-Router) + React 19 + TypeScript 5.7 + Tailwind CSS 4.
+Tienda de camisetas de fútbol réplica, pensada para verse primero en el
+celular (95% del tráfico). Stack: Next.js 16 (App Router) + React 19 +
+TypeScript + Tailwind CSS 4 + Supabase (auth, base de datos y storage).
 
-## Categorías
+## Rutas públicas
 
-Las categorías ya no están fijas en el código: viven en la tabla
-`categorias` de Supabase y se administran desde `/admin/categorias`
-(crear, renombrar, eliminar). El proyecto arranca con estas 4 (creadas por
-`supabase/schema.sql`), pero podés agregar, renombrar o borrar las que
-quieras:
+- `/` — página principal: hero con banner, carrusel **Más vendidas**
+  (destacadas), carrusel **Novedades**, chips de categorías y sección
+  "Sobre nosotros". Los dos carruseles avanzan sincronizados cada 3 segundos.
+- `/catalogo` — catálogo completo con buscador por nombre y filtro por
+  categoría (`?categoria=<slug>`). Cada remera muestra fotos, nombre, precio
+  y talles; se elige un talle disponible y el botón **Pedir** abre WhatsApp
+  con el mensaje armado.
 
-- Jugador · Clubes
-- Jugador · Selecciones
-- Fan (clubes y selecciones)
-- Jugador · Temporada pasada
+## Panel de administración
 
-Cada categoría tiene un `slug` interno (se genera solo a partir del nombre
-al crearla, y no cambia si después editás el nombre) y una `etiqueta`
-visible. Una categoría no se puede eliminar si todavía hay remeras
-cargadas con ella — primero hay que reasignarlas o borrarlas.
+- `/login` — inicio de sesión (solo los emails admin entran).
+- `/admin` — listado de remeras con toggle de talle/activa/destacada,
+  **Editar** y **Eliminar**.
+- `/admin/nueva` — alta de remera (nombre, descripción, precio, categoría,
+  talles, destacada y fotos, varios archivos de una).
+- `/admin/[id]/editar` — edición completa, borrado/orden de fotos y alta de
+  fotos nuevas.
+- `/admin/categorias` — crear, renombrar y eliminar categorías.
+- `/admin/pedidos` — pedidos con estado de pago (sin pago/seña/pagado) y
+  entregado; `nueva` y `[id]/editar` para cargarlos a mano.
 
-## Rutas
+Las rutas `/admin/*` y `/login` están protegidas por el middleware
+(`proxy.ts`, en esta versión de Next el archivo se llama `proxy.ts` y no
+`middleware.ts`). Además, cada Server Action verifica la sesión con
+`lib/auth.ts` y las políticas RLS solo permiten escribir a los emails
+listados como admins.
 
-- `/` — catálogo público, con pestañas por categoría. Cada remera muestra sus
-  fotos (con flechas si hay más de una), nombre, descripción, precio y
-  talles. El cliente elige un talle disponible y aparece el botón **Pedir
-  por WhatsApp**, que abre WhatsApp con un mensaje ya armado pidiendo esa
-  remera en ese talle.
-- `/login` — inicio de sesión del admin.
-- `/admin` — listado de todas las remeras. Desde acá:
-  - se puede tildar/destildar cada talle (S/M/L/XL) al instante, sin entrar
-    a editar — útil para marcar "se agotó el talle M";
-  - **Editar** abre el formulario completo;
-  - **Eliminar** borra la remera y sus fotos.
-- `/admin/nueva` — alta de una remera nueva: nombre, descripción, precio,
-  categoría, talles iniciales y fotos (podés elegir varios archivos de tu
-  PC de una sola vez).
-- `/admin/[id]/editar` — edición: mismos campos, más la posibilidad de
-  eliminar fotos existentes (tildándolas) y agregar fotos nuevas.
-- `/admin/categorias` — alta, edición del nombre y borrado de categorías.
+## Configurar el proyecto en Supabase
 
-## 1. Crear/actualizar el proyecto en Supabase
-
-1. En https://supabase.com creá un proyecto (o usá uno que ya tengas).
+1. Creá un proyecto en https://supabase.com.
 2. Copiá de **Project Settings → API** la `Project URL` y la `anon public key`.
-3. En **SQL Editor**, ejecutá el contenido de `supabase/schema.sql`. Este
-   script:
-   - crea (o actualiza, si ya existía) la tabla `remeras` con las columnas
-     `descripcion`, `categoria`, `imagenes` (array de URLs) y `tallas`
-     (objeto `{S, M, L, XL}` con `true`/`false`);
-   - define las políticas de RLS: lectura pública, escritura (insert /
-     update / delete) solo para usuarios autenticados;
-   - crea el **bucket de Storage público** `remeras-fotos` donde se guardan
-     las fotos, con sus propias políticas (lectura pública, subida/borrado
-     solo autenticado).
-4. En **Authentication → Users**, creá tu usuario admin (email + contraseña)
-   si todavía no lo tenés. No hay registro público, solo ese usuario entra
-   a `/admin`.
+3. En **SQL Editor**, ejecutá el contenido de `supabase/schema.sql`. Es
+   seguro correrlo varias veces (no borra datos). Crea/actualiza las tablas
+   `categorias`, `remeras` y `pedidos`, las políticas RLS (lectura pública,
+   escritura solo para los emails admin) y el bucket público `remeras-fotos`.
+4. En **Authentication → Sign In / Providers**, desactivá *"Allow new users
+   to sign up"* (y el anónimo si está encendido). El registro está bloqueado
+   por RLS igualmente, pero conviene cerrarlo de entrada.
+5. En **Authentication → Users**, creá el/los usuarios admin (los emails
+   `lib/auth.ts` y los de las políticas de `supabase/schema.sql`).
 
-## 2. Variables de entorno
+## Variables de entorno
 
 Copiá `.env.local.example` a `.env.local` y completá:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-anon-key-publica
+NEXT_PUBLIC_SITE_URL=https://tu-dominio.com
 NEXT_PUBLIC_WHATSAPP_NUMBER=595981234567
 ```
 
-`NEXT_PUBLIC_WHATSAPP_NUMBER` es el número que va a recibir los pedidos:
-código de país + número, sin `+`, espacios ni guiones.
+`NEXT_PUBLIC_SITE_URL` se usa para el canonical, `sitemap.xml`, `robots.txt`
+y los datos estructurados. `NEXT_PUBLIC_WHATSAPP_NUMBER` es el número que
+recibe los pedidos: código de país + número, sin `+`, espacios ni guiones.
 
-## 3. Instalar y correr
+## Correr en local
 
 ```bash
 npm install
 npm run dev
 ```
 
-- Catálogo: http://localhost:3000
-- Login admin: http://localhost:3000/login
+- Sitio: http://localhost:3001
+- Login admin: http://localhost:3001/login
+
+Verificación antes de pushear: `npm run lint` y `npx next build`.
 
 ## Cómo funciona por dentro
 
-- **Subida de fotos**: el formulario de alta/edición usa
-  `encType="multipart/form-data"` con `<input type="file" multiple>`. La
-  Server Action recibe los archivos directamente en el `FormData`, los sube
-  al bucket `remeras-fotos` (carpeta `<id-de-la-remera>/...`) con el cliente
-  de Supabase del servidor, y guarda las URLs públicas en la columna
-  `imagenes`.
-- **Talles**: se guardan como `jsonb` (`{"P": true, "M": false, ...}`) en
-  vez de eliminar el talle, así se puede reactivar con un clic cuando vuelva
-  el stock.
-- **WhatsApp**: el botón arma un link `https://wa.me/<numero>?text=<mensaje
-  codificado>` con el nombre de la remera y el talle elegido. No depende de
-  Supabase, es solo un link — no hace falta configurar nada más que el
-  número en `.env.local`.
-- **Auth**: igual que antes, `middleware.ts` protege `/admin/*` y redirige a
-  `/login` si no hay sesión.
-- **Un detalle de React**: los formularios con `action={miServerAction}` NO
-  deben llevar `encType` a mano — React ya lo pone automáticamente cuando
-  detecta un `<input type="file">` en el formulario. Ponerlo manualmente
-  generaba un conflicto que corrompía el envío cuando se subía más de una
-  foto (aparecía la misma imagen duplicada en vez de las dos elegidas).
+- **Auth**: `proxy.ts` refresca la sesión en cada request de `/admin` y
+  `/login`. Las Server Actions del panel empiezan con `requireAdmin()`, que
+  redirige a `/login` si no hay sesión o el email no es admin.
+- **Fotos**: se suben al bucket `remeras-fotos` (carpeta por remera) desde
+  las Server Actions y se guardan las URLs públicas en `remeras.imagenes`.
+- **Talles**: se guardan como `jsonb` (`{"P": true, "M": false, ...}`);
+  eliminar un talle no borra el dato, así se reactiva con un clic.
+- **Carruseles**: `lib/tickCarrusel.ts` emite un evento global cada 3
+  segundos; ambos carruseles de la home se suscriben y avanzan juntos.
+- **SEO**: `app/sitemap.ts`, `app/robots.ts`, canonical/OG por página e
+  `app/layout.tsx`; datos estructurados (JSON-LD) de tipo *Product* y
+  *OnlineStore* generados por `components/ProductJsonLd.tsx`.
 
 ## Estructura
 
 ```
 app/
-  page.tsx                    catálogo público (pestañas por categoría)
-  login/
-    page.tsx, actions.ts        login/logout
-  admin/
-    page.tsx                    listado + toggle de talles + eliminar
-    actions.ts                   server actions: alta, edición, borrado, toggle
-    campos.tsx                   inputs/labels reutilizados en los formularios
-    TallaCheckbox.tsx             checkbox interactivo de disponibilidad
-    nueva/page.tsx                formulario de alta (con subida de fotos)
-    [id]/editar/page.tsx           formulario de edición
-    categorias/page.tsx            administrar categorías
-    categorias/actions.ts          server actions de categorías
+  page.tsx                      landing (hero, carruseles, categorías, sobre nosotros)
+  catalogo/page.tsx             catálogo + filtros + JSON-LD de productos
+  login/                        login/logout
+  sitemap.ts, robots.ts         SEO
+  admin/                        listado, alta/edición, categorías, pedidos
+components/
+  RemeraCard.tsx                tarjeta pública (fotos, talles, botón Pedir)
+  CarruselDestacadas.tsx        carrusel compartido (destacadas/novedades)
+  Lightbox.tsx                  visor de fotos con zoom
+  ProductJsonLd.tsx             datos estructurados de producto
+  WhatsAppFlotante.tsx          botón flotante de WhatsApp
 lib/
-  categorias.ts                 lee/crea slugs de categorías desde Supabase
-  supabase/client.ts, server.ts  clientes de Supabase
-middleware.ts                   protección de /admin
-supabase/schema.sql              tablas remeras/categorias, RLS y bucket de Storage
-types/remera.ts                  tipos Remera y Tallas
-components/RemeraCard.tsx        tarjeta pública: fotos, talle, WhatsApp
+  supabase/client.ts, server.ts clientes de Supabase
+  auth.ts                       emails admin + verificación de sesión
+  site.ts                       URL pública del sitio y sitemap/robots
+  tickCarrusel.ts               tick global de los carruseles
+  categorias.ts                 categorías + slugify
+proxy.ts                        middleware de auth (protege /admin y /login)
+supabase/schema.sql             tablas, RLS y bucket de Storage
+types/                         tipos Remera, Tallas, Pedido
 ```
-
-## Ideas para seguir practicando
-
-- Agregar un buscador por nombre en el catálogo.
-- Subir el límite de tamaño/tipo de archivo permitido en el input de fotos.
-- Mostrar un aviso de "sin stock" si ningún talle está disponible.

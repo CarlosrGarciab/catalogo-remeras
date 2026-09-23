@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { requireAdmin } from '@/lib/auth'
 import type { ItemPedido, PagoPedido } from '@/types/pedido'
 
 const PAGOS_VALIDOS: PagoPedido[] = ['pendiente', 'senia', 'pagado']
@@ -56,6 +57,7 @@ async function resolverItems(
 }
 
 export async function crearPedido(formData: FormData) {
+  await requireAdmin()
   const supabase = await createClient()
   const items = await resolverItems(supabase, leerItems(formData.get('items_json')))
 
@@ -77,6 +79,7 @@ export async function crearPedido(formData: FormData) {
 }
 
 export async function actualizarPedido(formData: FormData) {
+  await requireAdmin()
   const supabase = await createClient()
   const id = formData.get('id') as string
   const items = await resolverItems(supabase, leerItems(formData.get('items_json')))
@@ -102,6 +105,7 @@ export async function actualizarPedido(formData: FormData) {
 }
 
 export async function alternarEntregado(id: string, entregado: boolean) {
+  await requireAdmin()
   const supabase = await createClient()
   await supabase
     .from('pedidos')
@@ -114,6 +118,7 @@ export async function alternarEntregado(id: string, entregado: boolean) {
 }
 
 export async function eliminarPedido(formData: FormData) {
+  await requireAdmin()
   const supabase = await createClient()
   await supabase.from('pedidos').delete().eq('id', formData.get('id') as string)
   revalidatePath('/admin/pedidos')

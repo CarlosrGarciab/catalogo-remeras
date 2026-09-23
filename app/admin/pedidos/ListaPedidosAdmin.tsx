@@ -65,7 +65,7 @@ function BotonEliminarPedido({ id, cliente }: { id: string; cliente: string }) {
       mensaje={
         <>
           ¿Seguro que querés eliminar el pedido de{' '}
-          <span className="font-medium text-neutral-900 dark:text-white">"{cliente}"</span>? Este
+          <span className="font-medium text-neutral-900 dark:text-white">“{cliente}”</span>? Este
           cambio no se puede deshacer.
         </>
       }
