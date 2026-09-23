@@ -10,3 +10,18 @@ input[type='number'] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
+@keyframes aparecer-carrusel {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animar-carrusel {
+  animation: aparecer-carrusel 400ms ease;
+}

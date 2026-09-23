@@ -46,7 +46,7 @@ export default function CarruselDestacadas({
       onFocus={() => setPausado(true)}
       onBlur={() => setPausado(false)}
     >
-      <div className="grid md:grid-cols-2">
+      <div key={actual.id} className="animar-carrusel grid md:grid-cols-2">
         <div className="relative aspect-[4/3] bg-white dark:bg-neutral-800 md:aspect-auto md:min-h-[360px]">
           {imagenes[0] ? (
             <button

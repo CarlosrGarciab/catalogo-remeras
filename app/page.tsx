@@ -107,7 +107,6 @@ export default async function HomePage() {
               className="inline-flex items-center gap-2 rounded-full border border-neutral-300 px-6 py-3 text-sm font-medium text-neutral-700 transition hover:border-neutral-900 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white dark:hover:text-white"
             >
               {cat.etiqueta}
-              <span aria-hidden>→</span>
             </Link>
           ))}
         </div>
