@@ -99,6 +99,55 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <section className="border-b border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900">
+        <div className="mx-auto grid max-w-6xl gap-4 px-4 py-10 sm:grid-cols-3 sm:px-8">
+          {[
+            {
+              titulo: 'Réplicas calidad tailandesa',
+              texto:
+                'Importadas de Tailandia, lo que ves en la foto es lo que recibís. La mayoría bordadas, también termoselladas.',
+            },
+            {
+              titulo: 'Tela dry fit',
+              texto:
+                'Tela dry fit que transpira, talles P a XXL. Ideal para usar y para coleccionar.',
+            },
+            {
+              titulo: 'Precios más que accesibles',
+              texto:
+                'Calidad premium a precios que no los vas a creer. Seña del 50% y coordinás la entrega por WhatsApp.',
+            },
+          ].map((item) => (
+            <div
+              key={item.titulo}
+              className="rounded-xl border border-neutral-200 bg-neutral-50 p-5 dark:border-neutral-800 dark:bg-neutral-950"
+            >
+              <h3 className="font-semibold text-neutral-900 dark:text-white">{item.titulo}</h3>
+              <p className="mt-1.5 text-sm text-neutral-500 dark:text-neutral-400">{item.texto}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-8">
+        <div className="mb-6">
+          <h2 className="text-2xl font-semibold text-neutral-900 dark:text-white">Categorías</h2>
+          <p className="mt-1 text-neutral-500 dark:text-neutral-400">Elegí por dónde empezar</p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          {categorias.map((cat) => (
+            <Link
+              key={cat.slug}
+              href={`/catalogo?categoria=${cat.slug}`}
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-300 px-6 py-3 text-sm font-medium text-neutral-700 transition hover:border-neutral-900 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-white dark:hover:text-white"
+            >
+              {cat.etiqueta}
+              <span aria-hidden>→</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {destacadas.length > 0 && (
         <section id="mas-vendidas" className="mx-auto max-w-6xl px-4 py-14 sm:px-8">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
