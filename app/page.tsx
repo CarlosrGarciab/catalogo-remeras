@@ -84,6 +84,12 @@ export default async function HomePage() {
               Ver catálogo
             </Link>
             <Link
+              href="#mas-vendidas"
+              className="rounded-md border border-neutral-700 px-8 py-3 text-sm font-semibold text-neutral-200 transition hover:border-white hover:text-white"
+            >
+              Más vendidas
+            </Link>
+            <Link
               href="#novedades"
               className="rounded-md border border-neutral-700 px-8 py-3 text-sm font-semibold text-neutral-200 transition hover:border-white hover:text-white"
             >
@@ -94,7 +100,7 @@ export default async function HomePage() {
       </section>
 
       {destacadas.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-14 sm:px-8">
+        <section id="mas-vendidas" className="mx-auto max-w-6xl px-4 py-14 sm:px-8">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
             <div>
               <h2 className="text-2xl font-semibold text-neutral-900 dark:text-white">
@@ -150,6 +156,12 @@ export default async function HomePage() {
       <div className="mx-auto max-w-6xl px-4 sm:px-8">
         <SobreNosotros />
       </div>
+
+      <footer className="mt-4 border-t border-neutral-200 py-8 dark:border-neutral-800">
+        <div className="mx-auto max-w-6xl px-4 text-center text-sm text-neutral-400 dark:text-neutral-500 sm:px-8">
+          © {new Date().getFullYear()} Valheim Remeras · Réplicas de fútbol
+        </div>
+      </footer>
 
       <WhatsAppFlotante />
     </main>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import Lightbox from './Lightbox'
 import type { Remera } from '@/types/remera'
 
 const INTERVALO = 4000
@@ -16,12 +17,13 @@ export default function CarruselDestacadas({
 }) {
   const [indice, setIndice] = useState(0)
   const [pausado, setPausado] = useState(false)
+  const [fotoAmpliada, setFotoAmpliada] = useState(false)
 
   useEffect(() => {
-    if (pausado || remeras.length <= 1) return
+    if (pausado || fotoAmpliada || remeras.length <= 1) return
     const id = setInterval(() => setIndice((i) => (i + 1) % remeras.length), INTERVALO)
     return () => clearInterval(id)
-  }, [pausado, remeras.length])
+  }, [pausado, fotoAmpliada, remeras.length])
 
   if (remeras.length === 0) return null
 
@@ -40,17 +42,24 @@ export default function CarruselDestacadas({
       onFocus={() => setPausado(true)}
       onBlur={() => setPausado(false)}
     >
-      <Link href="/catalogo" className="grid md:grid-cols-2" aria-label={`Ver ${actual.nombre} en el catálogo`}>
-        <div className="relative aspect-[4/3] bg-neutral-100 dark:bg-neutral-800 md:aspect-auto md:min-h-[360px]">
+      <div className="grid md:grid-cols-2">
+        <div className="relative aspect-[4/3] bg-white dark:bg-neutral-800 md:aspect-auto md:min-h-[360px]">
           {imagenes[0] ? (
-            <Image
-              src={imagenes[0]}
-              alt={actual.nombre}
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-              priority
-            />
+            <button
+              type="button"
+              onClick={() => setFotoAmpliada(true)}
+              aria-label={`Ver foto más grande de ${actual.nombre}`}
+              className="relative block h-full w-full cursor-zoom-in bg-transparent p-6"
+            >
+              <Image
+                src={imagenes[0]}
+                alt={actual.nombre}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain"
+                priority
+              />
+            </button>
           ) : (
             <div className="flex h-full items-center justify-center text-neutral-400">Sin foto</div>
           )}
@@ -76,11 +85,14 @@ export default function CarruselDestacadas({
           <p className="text-2xl font-semibold text-neutral-900 dark:text-white sm:text-3xl">
             Gs. {Number(actual.precio).toLocaleString('es-PY')}
           </p>
-          <span className="inline-flex w-fit items-center gap-2 rounded-md bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200">
+          <Link
+            href="/catalogo"
+            className="inline-flex w-fit items-center gap-2 rounded-md bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
+          >
             Ver en el catálogo →
-          </span>
+          </Link>
         </div>
-      </Link>
+      </div>
 
       {remeras.length > 1 && (
         <>
@@ -109,12 +121,18 @@ export default function CarruselDestacadas({
                 onClick={() => setIndice(i)}
                 aria-label={`Ir a la destacada ${i + 1}`}
                 className={`h-2 rounded-full transition-all ${
-                  i === indice ? 'w-6 bg-neutral-900 dark:bg-white' : 'w-2 bg-neutral-300 dark:bg-neutral-600'
+                  i === indice
+                    ? 'w-6 bg-neutral-900 dark:bg-white'
+                    : 'w-2 bg-neutral-300 dark:bg-neutral-600'
                 }`}
               />
             ))}
           </div>
         </>
+      )}
+
+      {fotoAmpliada && imagenes.length > 0 && (
+        <Lightbox imagenes={imagenes} inicio={0} onCerrar={() => setFotoAmpliada(false)} />
       )}
     </div>
   )
