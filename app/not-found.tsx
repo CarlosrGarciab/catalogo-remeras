@@ -21,7 +21,7 @@ export default function NotFound() {
         El enlace puede estar roto o la página se movió. Volvé al catálogo para seguir mirando
         remeras.
       </p>
-      <div className="mt-8 flex w-full max-w-xs flex-col gap-3 sm:max-w-none sm:flex-row">
+      <div className="mt-8 flex w-full max-w-xs flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center">
         <Link
           href="/catalogo"
           className="w-full rounded-md bg-neutral-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200 sm:w-auto"
