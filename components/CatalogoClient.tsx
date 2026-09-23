@@ -67,13 +67,18 @@ export default function CatalogoClient({
           </p>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filtradas.map((remera) => (
-              <RemeraCard
+              <div
                 key={remera.id}
-                remera={remera}
-                categoriaEtiqueta={
-                  mostrarCategoria ? etiquetasPorSlug?.[remera.categoria] : undefined
-                }
-              />
+                id={`remera-${remera.id}`}
+                className="scroll-mt-8 rounded-2xl transition target:ring-2 target:ring-amber-400"
+              >
+                <RemeraCard
+                  remera={remera}
+                  categoriaEtiqueta={
+                    mostrarCategoria ? etiquetasPorSlug?.[remera.categoria] : undefined
+                  }
+                />
+              </div>
             ))}
           </div>
         </>

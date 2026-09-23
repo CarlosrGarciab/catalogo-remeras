@@ -126,7 +126,7 @@ export default async function HomePage() {
               href="/catalogo"
               className="text-sm text-neutral-500 underline underline-offset-4 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
             >
-              Ver todo el catálogo
+              Ver todas
             </Link>
           </div>
           <CarruselDestacadas remeras={destacadas} etiquetasPorSlug={etiquetasPorSlug} />

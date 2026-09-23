@@ -90,7 +90,7 @@ export default function CarruselDestacadas({
             Gs. {Number(actual.precio).toLocaleString('es-PY')}
           </p>
           <Link
-            href="/catalogo"
+            href={`/catalogo#remera-${actual.id}`}
             className="inline-flex w-fit items-center gap-2 rounded-md bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
           >
             Ver en el catálogo →
