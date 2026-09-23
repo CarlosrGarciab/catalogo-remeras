@@ -13,7 +13,7 @@ const metadataBase = new URL(
 export const metadata: Metadata = {
   metadataBase,
   title: {
-    default: `${SITE_NAME} | Réplicas de fútbol`,
+    default: SITE_NAME,
     template: `%s | ${SITE_NAME}`,
   },
   description:

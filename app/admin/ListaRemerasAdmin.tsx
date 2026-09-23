@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import TallaCheckbox from './TallaCheckbox'
 import BotonEliminarRemera from '@/components/BotonEliminarRemera'
-import { toggleRemeraActiva } from './actions'
+import { toggleRemeraActiva, toggleDestacada } from './actions'
 import type { Categoria } from '@/lib/categorias'
 import type { Remera, Tallas } from '@/types/remera'
 
@@ -28,6 +28,25 @@ function BotonActivaRemera({ remeraId, activa }: { remeraId: string; activa: boo
       ].join(' ')}
     >
       {activa ? 'Desactivar' : 'Activar'}
+    </button>
+  )
+}
+
+function BotonDestacadaRemera({ remeraId, destacada }: { remeraId: string; destacada: boolean }) {
+  const [isPending, startTransition] = useTransition()
+  return (
+    <button
+      type="button"
+      onClick={() => startTransition(() => toggleDestacada(remeraId, destacada))}
+      disabled={isPending}
+      className={[
+        'rounded-md border px-3 py-1.5 text-xs font-medium transition disabled:opacity-50',
+        destacada
+          ? 'border-amber-500 bg-amber-500 text-white hover:bg-amber-600'
+          : 'border-neutral-300 text-neutral-500 hover:border-amber-500 hover:text-amber-600 dark:border-neutral-700 dark:text-neutral-400 dark:hover:border-amber-500 dark:hover:text-amber-400',
+      ].join(' ')}
+    >
+      {destacada ? 'Quitar destacada' : 'Destacar'}
     </button>
   )
 }
@@ -180,6 +199,7 @@ export default function ListaRemerasAdmin({
               </div>
 
               <div className="flex shrink-0 items-center gap-4">
+                <BotonDestacadaRemera remeraId={remera.id} destacada={Boolean(remera.destacada)} />
                 <BotonActivaRemera remeraId={remera.id} activa={activa} />
                 <Link
                   href={`/admin/${remera.id}/editar${categoria ? '?categoria=' + encodeURIComponent(categoria) : ''}`}
