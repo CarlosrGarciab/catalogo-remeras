@@ -99,9 +99,9 @@ export default function RemeraCard({
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-3 sm:p-4">
-        <div>
+        <div className="min-w-0">
           {categoriaEtiqueta && (
-            <span className="mb-1.5 inline-block rounded-full border border-neutral-200 bg-neutral-50 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-neutral-500 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+            <span className="mb-1.5 inline-block max-w-full truncate rounded-full border border-neutral-200 bg-neutral-50 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-neutral-500 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
               {categoriaEtiqueta}
             </span>
           )}
