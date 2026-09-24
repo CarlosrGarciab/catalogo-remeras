@@ -47,7 +47,7 @@ export default async function HomePage() {
     <main className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
       <section className="relative overflow-hidden bg-neutral-900 dark:bg-neutral-950">
         <Image
-          src="/banner.png"
+          src="/banner.jpg"
           alt=""
           fill
           priority
