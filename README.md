@@ -1,4 +1,4 @@
-# Valheim Réplicas — catálogo de remeras
+# LK Jersey — catálogo de remeras
 
 Tienda de camisetas de fútbol réplica, pensada para verse primero en el
 celular (95% del tráfico). Stack: Next.js 16 (App Router) + React 19 +

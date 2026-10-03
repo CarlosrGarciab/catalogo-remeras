@@ -3,8 +3,8 @@ import { siteUrl } from '@/lib/site'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Valheim Réplicas',
-    short_name: 'Valheim',
+    name: 'LK Jersey',
+    short_name: 'LK',
     description:
       'Réplicas de camisetas de fútbol: clubes y selecciones. Elegí tu talle y pedila por WhatsApp.',
     start_url: siteUrl('/'),

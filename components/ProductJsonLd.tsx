@@ -17,7 +17,7 @@ export default function ProductJsonLd({ remeras }: { remeras: Remera[] }) {
         url,
         ...(imagenes.length > 0 ? { image: imagenes } : {}),
         ...(remera.descripcion ? { description: remera.descripcion } : {}),
-        brand: { '@type': 'Brand', name: 'Valheim Réplicas' },
+        brand: { '@type': 'Brand', name: 'LK Jersey' },
         offers: {
           '@type': 'Offer',
           price: Number(remera.precio).toFixed(2),

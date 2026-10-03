@@ -11,7 +11,7 @@ import { siteUrl } from '@/lib/site'
 import type { Remera } from '@/types/remera'
 
 const CANTIDAD_NOVEDADES = 8
-const SITE_NAME = 'Valheim Réplicas'
+const SITE_NAME = 'LK Jersey'
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -65,7 +65,7 @@ export default async function HomePage() {
               height={48}
               className="h-12 w-12 rounded-full object-cover shadow-sm"
             />
-            <span className="text-xl font-semibold text-white">Valheim Réplicas</span>
+            <span className="text-xl font-semibold text-white">LK Jersey</span>
           </div>
         </div>
 
@@ -182,7 +182,7 @@ export default async function HomePage() {
 
       <footer className="mt-4 border-t border-neutral-200 py-8 dark:border-neutral-800">
         <div className="mx-auto max-w-6xl px-4 pb-[env(safe-area-inset-bottom)] text-center text-sm text-neutral-400 dark:text-neutral-500 sm:px-8">
-          © {new Date().getFullYear()} Valheim Réplicas · Réplicas de fútbol
+          © {new Date().getFullYear()} LK Jersey · Réplicas de fútbol
         </div>
       </footer>
 

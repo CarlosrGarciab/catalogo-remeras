@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { siteUrl } from '@/lib/site'
 
-const SITE_NAME = 'Valheim Réplicas'
+const SITE_NAME = 'LK Jersey'
 
 export const viewport: Viewport = {
   width: 'device-width',
